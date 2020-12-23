@@ -1,0 +1,20 @@
+<resources>
+    <!-- Reply Preference -->
+    <string-array name="reply_entries">
+        <item>Default</item>
+        <item>Amber</item>
+        <item>Azure</item>
+        <item>Brick Red</item>
+        <item>Coffee</item>
+        <item>Electric blue</item>
+    </string-array>
+
+    <string-array name="reply_values">
+        <item>#00A1CD</item>
+        <item>#FFBF00</item>
+        <item>#007FFF</item>
+        <item>#CB4154</item>
+        <item>#6F4E37</item>
+        <item>#7DF9FF</item>
+    </string-array>
+</resources>
