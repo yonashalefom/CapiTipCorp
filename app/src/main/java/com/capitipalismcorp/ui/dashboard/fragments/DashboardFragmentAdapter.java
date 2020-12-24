@@ -1,6 +1,5 @@
 package com.capitipalismcorp.ui.dashboard.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -8,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -18,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.capitipalismcorp.R;
 import com.capitipalismcorp.classes.GroupManager;
 import com.capitipalismcorp.ui.adapters.UsersSearchAdapter;
-import com.capitipalismcorp.ui.adapters.UsersSearchAdapter2;
 import com.capitipalismcorp.ui.dashboard.adapters.menu.DashboardMenuAdapter;
 import com.capitipalismcorp.ui.dashboard.adapters.menu.Menu;
 import com.capitipalismcorp.ui.search.SearchUser;
@@ -42,7 +39,7 @@ public class DashboardFragmentAdapter extends RecyclerView.Adapter<RecyclerView.
     // endregion
 
     // region Users List Containers
-    private UsersSearchAdapter2 searchAdapter;
+    private UsersSearchAdapter searchAdapter;
     private ArrayList<String> userIDList;
     private ArrayList<String> userNameList;
     private ArrayList<String> userNewUserList;
@@ -242,7 +239,7 @@ public class DashboardFragmentAdapter extends RecyclerView.Adapter<RecyclerView.
                 // foundUsersCount.setVisibility(View.VISIBLE);
                 dashboard_search_user_progress_indicator.setVisibility(View.GONE);
                 System.out.println("*************FOUND USERS*************");
-                searchAdapter = new UsersSearchAdapter2(view.getContext(), userIDList, profileImageList, userNewUserList, userNameList, userBalanceList, userValidationList, userSearchTagList, userStatusList);
+                searchAdapter = new UsersSearchAdapter(view.getContext(), userIDList, profileImageList, userNewUserList, userNameList, userBalanceList, userValidationList, userSearchTagList, userStatusList);
                 foundUsersRecyclerView.setAdapter(searchAdapter);
             }
 

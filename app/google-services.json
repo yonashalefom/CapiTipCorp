@@ -1,42 +1,42 @@
 {
   "project_info": {
-    "project_number": "913028653497",
-    "firebase_url": "https://capatalism-2020.firebaseio.com",
-    "project_id": "capatalism-2020",
-    "storage_bucket": "capatalism-2020.appspot.com"
+    "project_number": "387224877371",
+    "firebase_url": "https://corp-cap-group-admin-default-rtdb.firebaseio.com",
+    "project_id": "corp-cap-group-admin",
+    "storage_bucket": "corp-cap-group-admin.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:913028653497:android:ebae1deca17024c9551668",
+        "mobilesdk_app_id": "1:387224877371:android:cf474e4313235bab825f1e",
         "android_client_info": {
           "package_name": "com.capitipalism"
         }
       },
       "oauth_client": [
         {
-          "client_id": "913028653497-371qf138k6uhh0akh4uufessitv6v88n.apps.googleusercontent.com",
+          "client_id": "387224877371-u3abcnbl5muknrf7nr72p6egq3ae72i4.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.capitipalism",
-            "certificate_hash": "2d14e225a09f703d895b6db7ce0ca624e015c5cb"
+            "certificate_hash": "d75e5cb79a1c7f643804539de1cdb70512f4fb36"
           }
         },
         {
-          "client_id": "913028653497-98ma5eqej4ls3pqlf5ed8693v2aisu5k.apps.googleusercontent.com",
+          "client_id": "387224877371-igrdfjr7lkvb8h7bdkalbf3gj9qegctg.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB5YAaMTAZGKt2Dm64Oaz067V3o3DBPTu4"
+          "current_key": "AIzaSyDUUMQwzOQWBTzGqPuK0ZHZddo9o35ZjUM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "913028653497-98ma5eqej4ls3pqlf5ed8693v2aisu5k.apps.googleusercontent.com",
+              "client_id": "387224877371-igrdfjr7lkvb8h7bdkalbf3gj9qegctg.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -45,51 +45,14 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:913028653497:android:9e47174213194a79551668",
-        "android_client_info": {
-          "package_name": "com.capitipalismadmin"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "913028653497-p196v7epv1soor8r5p8k3d1kjbjs9tuc.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.capitipalismadmin",
-            "certificate_hash": "2d14e225a09f703d895b6db7ce0ca624e015c5cb"
-          }
-        },
-        {
-          "client_id": "913028653497-98ma5eqej4ls3pqlf5ed8693v2aisu5k.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyB5YAaMTAZGKt2Dm64Oaz067V3o3DBPTu4"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "913028653497-98ma5eqej4ls3pqlf5ed8693v2aisu5k.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:913028653497:android:5bd66f1fdf177c75551668",
+        "mobilesdk_app_id": "1:387224877371:android:a417ce3c2c9155aa825f1e",
         "android_client_info": {
           "package_name": "com.capitipalismcorp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "913028653497-ai4ilgnil433vjpdhvo52hr8c0fmqhpl.apps.googleusercontent.com",
+          "client_id": "387224877371-aadb4guu57gcuqmmp7lsg80ndgvuf03t.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.capitipalismcorp",
@@ -97,20 +60,20 @@
           }
         },
         {
-          "client_id": "913028653497-98ma5eqej4ls3pqlf5ed8693v2aisu5k.apps.googleusercontent.com",
+          "client_id": "387224877371-igrdfjr7lkvb8h7bdkalbf3gj9qegctg.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB5YAaMTAZGKt2Dm64Oaz067V3o3DBPTu4"
+          "current_key": "AIzaSyDUUMQwzOQWBTzGqPuK0ZHZddo9o35ZjUM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "913028653497-98ma5eqej4ls3pqlf5ed8693v2aisu5k.apps.googleusercontent.com",
+              "client_id": "387224877371-igrdfjr7lkvb8h7bdkalbf3gj9qegctg.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

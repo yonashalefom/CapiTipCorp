@@ -191,6 +191,13 @@ public class LoginColorConfirmation extends AppCompatActivity {
                                         startActivity(new Intent(LoginColorConfirmation.this, Profile.class).putExtra("userID", CapiUserManager.getCurrentUserID()));
                                         finish();
                                     }), 1000);
+                        } else if (userType.equals("SupportRep")) {
+                            new Handler().postDelayed(() -> CircularAnim.fullActivity(LoginColorConfirmation.this, login_btn_login)
+                                    .colorOrImageRes(R.color.capitipalism_success)
+                                    .go(() -> {
+                                        startActivity(new Intent(LoginColorConfirmation.this, SearchUser.class).putExtra("userID", CapiUserManager.getCurrentUserID()));
+                                        finish();
+                                    }), 1000);
                         }
                     } else if (Objects.requireNonNull(userColorPassword).compareToIgnoreCase("Default") == 0) {
                         login_progress_color_confirmation_page.setVisibility(View.GONE);

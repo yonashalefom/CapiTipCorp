@@ -54,31 +54,41 @@ public class UsersSearchAdapter extends RecyclerView.Adapter<UsersSearchAdapter.
     private DatabaseReference userDatabase;
 
     static class SearchViewHolder extends RecyclerView.ViewHolder {
-        ImageView profileImage, user_sponsor_indicator, amountSave;
+        ImageView profileImage, user_sponsor_indicator;
         TextView userName, userStatus, userBalance, user_holder_editText_tag;
-        ConstraintLayout userHolderMainContainer, nfc_image_right;
+        ConstraintLayout userHolderMainContainer;
         FrameLayout user_holder_write_nfc_tag;
-        FrameLayout user_holder_write_nfc_tag_add;
+        FrameLayout user_holder_swipe_right_text_editor_container;
         FrameLayout user_holder_delete_user;
         FrameLayout user_holder_logout_user;
+        FrameLayout user_holder_image_save;
+        FrameLayout user_holder_swipe_left_text_editor_container;
         EditText user_holder_editText;
 
         SearchViewHolder(View itemView) {
             super(itemView);
+            // region User Holder Left Items
+            user_holder_image_save = itemView.findViewById(R.id.user_holder_image_save);
+            user_holder_swipe_left_text_editor_container = itemView.findViewById(R.id.user_holder_swipe_left_text_editor_container);
+            user_holder_editText = itemView.findViewById(R.id.user_holder_editText);
+            // endregion
+
+            // region User Holder Middle Items
             userHolderMainContainer = itemView.findViewById(R.id.user_holder_main_container);
-            user_holder_write_nfc_tag = itemView.findViewById(R.id.user_holder_write_nfc_tag);
-            user_holder_write_nfc_tag_add = itemView.findViewById(R.id.user_holder_write_nfc_tag_add);
-            user_holder_delete_user = itemView.findViewById(R.id.user_holder_delete_user);
-            user_holder_logout_user = itemView.findViewById(R.id.user_holder_logout_user);
             userName = itemView.findViewById(R.id.user_name);
             profileImage = itemView.findViewById(R.id.user_image);
-            userStatus = itemView.findViewById(R.id.user_status);
             user_sponsor_indicator = itemView.findViewById(R.id.user_sponsor_indicator);
-            user_holder_editText = itemView.findViewById(R.id.user_holder_editText);
-            amountSave = itemView.findViewById(R.id.user_holder_image_save);
+            userStatus = itemView.findViewById(R.id.user_status);
             userBalance = itemView.findViewById(R.id.text_balance_right);
-            nfc_image_right = itemView.findViewById(R.id.nfc_image_right);
+            // endregion
+
+            // region User Holder Right Items
+            user_holder_swipe_right_text_editor_container = itemView.findViewById(R.id.user_holder_swipe_right_text_editor_container);
             user_holder_editText_tag = itemView.findViewById(R.id.user_holder_editText_tag);
+            user_holder_write_nfc_tag = itemView.findViewById(R.id.user_holder_write_nfc_tag);
+            user_holder_delete_user = itemView.findViewById(R.id.user_holder_delete_user);
+            user_holder_logout_user = itemView.findViewById(R.id.user_holder_logout_user);
+            // endregion
         }
     }
 
@@ -116,12 +126,15 @@ public class UsersSearchAdapter extends RecyclerView.Adapter<UsersSearchAdapter.
         System.out.println("##########################################################");
         System.out.println("*************************************");
         System.out.println("View Bind at position: " + position);
-//        userDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(profileIDList.get(position));
+        // userDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(profileIDList.get(position));
 
+        // region Set Color Indicator For New Users
         if (userNewList.get(position).equals("true")) {
             holder.userName.setTextColor(Color.RED);
             DatabaseReference adminDatabaseReference;
-            adminDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(profileIDList.get(position));
+            String groupID = GroupManager.getGroupID();
+            String ownerID = GroupManager.getOwnerID();
+            adminDatabaseReference = FirebaseDatabase.getInstance().getReference("GroupUsers").child(ownerID).child(groupID).child(profileIDList.get(position));
             adminDatabaseReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -134,15 +147,52 @@ public class UsersSearchAdapter extends RecyclerView.Adapter<UsersSearchAdapter.
                 }
             });
         }
+        // endregion
 
-        if(userValidationList.get(position).equals("null") && !(userNewList.get(position).equals("true"))){
+        // region Set Color Indicator For Users That Don't Have Validation Text
+        if (userValidationList.get(position).equals("null") && !(userNewList.get(position).equals("true"))) {
             holder.userName.setTextColor(Color.BLUE);
         }
+        // endregion
 
+        // region Set User Name and Status
         holder.userName.setText(userNameList.get(position));
         holder.userStatus.setText(userStatusList.get(position));
+        // endregion
 
+        // region Set User Sponsor Star Indicator
+        CapiUserManager.loadUserData(context);
+        if (CapiUserManager.userDataExists()) {
+            // region Beta Feature
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            String groupID = GroupManager.getGroupID();
+            String ownerID = GroupManager.getOwnerID();
+            DatabaseReference reference = database.getReference("GroupUsers").child(ownerID).child(groupID).child(profileIDList.get(position));
+            reference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    try {
+                        // If the currently logged in user sponsored the loaded user, it shows indicator on the loaded user's profile
+                        final String userSponsorID = Objects.requireNonNull(dataSnapshot.child("userSponsorID").getValue()).toString();
+                        if (Objects.requireNonNull(userSponsorID).compareToIgnoreCase(CapiUserManager.getCurrentUserID()) == 0) {
+                            holder.user_sponsor_indicator.setVisibility(View.VISIBLE);
+                        }
+                    } catch (Exception e) {
+                        Log.d("Exception", e.getMessage());
+                    }
+                }
 
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+            // endregion
+        }
+        // holder.userName.setOnClickListener(v -> Toast.makeText(context, "Full Name Clicked", Toast.LENGTH_SHORT).show());
+        // endregion
+
+        // region Set Profile Image
         final String image = profileImageList.get(position);
 
         int userImagePlaceholder;
@@ -191,32 +241,73 @@ public class UsersSearchAdapter extends RecyclerView.Adapter<UsersSearchAdapter.
         } else {
             holder.profileImage.setImageResource(userImagePlaceholder);
         }
+        // endregion
 
+        // region Set UI State Based On User Type
         CapiUserManager.loadUserData(context);
         if (CapiUserManager.getUserType().equals("Super Admin")) {
 
-            holder.user_holder_logout_user.setVisibility(View.GONE);
-            holder.nfc_image_right.setVisibility(View.VISIBLE);
-            holder.user_holder_write_nfc_tag_add.setVisibility(View.GONE);
-            holder.userBalance.setText(userBalanceList.get(position) + "");
+            // region User Holder Left Items
             holder.user_holder_editText.setText(userValidationList.get(position) + "");
 
-            holder.user_holder_write_nfc_tag.setVisibility(View.VISIBLE);
-            holder.user_holder_delete_user.setVisibility(View.VISIBLE);
+            // region Set Click Event Handler for Image Save Icon (user_holder_image_save)
+            holder.user_holder_image_save.setOnClickListener(view -> {
+                String groupID = GroupManager.getGroupID();
+                String ownerID = GroupManager.getOwnerID();
+                userDatabase = FirebaseDatabase.getInstance().getReference("GroupUsers").child(ownerID).child(groupID).child(profileIDList.get(position));
+
+                System.out.println("save imag clicked");
+//                Toast.makeText(context, "Saving  User Amount: " + profileIDList.get(position), Toast.LENGTH_LONG).show();
+                Map<String, Object> balanceLinksUpdateMap = new HashMap<>();
+                balanceLinksUpdateMap.put("validation", holder.user_holder_editText.getText().toString());
+                userDatabase.updateChildren(balanceLinksUpdateMap).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(context, "Validation Text Updated", Toast.LENGTH_SHORT).show();
+                        AlertCreator.showSuccessAlert((Activity) context, "Success!", "Validation Text Updated!");
+                        Intent intent = ((Activity) context).getIntent();
+                        intent.putExtra("userID", CapiUserManager.getCurrentUserID());
+                        ((Activity) context).finish();
+                        context.startActivity(intent);
+                    } else {
+                        Toast.makeText(context, Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
+                        AlertCreator.showSuccessAlert((Activity) context, "Error!", task.getException().getMessage());
+                    }
+                });
+            });
+            // endregion
+            // endregion
+
+            // region User Holder Middle Items
+            holder.userBalance.setText(userBalanceList.get(position) + "");
+
+            // region Set Click Event Handler for User List Item
             holder.userHolderMainContainer.setOnClickListener(view -> {
                 // Toast.makeText(context, "Clicked " + profileIDList.get(position), Toast.LENGTH_LONG).show();
                 Intent userProfileIntent = new Intent(context.getApplicationContext(), Profile.class);
                 userProfileIntent.putExtra("userID", profileIDList.get(position));
                 context.startActivity(userProfileIntent);
             });
+            // endregion
+            // endregion
 
+            // region User Holder Right Items
+            holder.user_holder_swipe_right_text_editor_container.setVisibility(View.GONE);
+            holder.user_holder_write_nfc_tag.setVisibility(View.VISIBLE);
+            holder.user_holder_delete_user.setVisibility(View.VISIBLE);
+            holder.user_holder_logout_user.setVisibility(View.GONE);
+
+            // region Write NFC Tag (user_holder_write_nfc_tag) - (For Super Admin Only)
             holder.user_holder_write_nfc_tag.setOnClickListener(view -> {
                 Toast.makeText(context, "Writing NFC Tag For: " + profileIDList.get(position), Toast.LENGTH_LONG).show();
             });
+            // endregion
 
+            // region Delete User (user_holder_delete_user) - (For Super Admin Only)
             holder.user_holder_delete_user.setOnClickListener(view -> {
-                userDatabase = FirebaseDatabase.getInstance().getReference();
-                Query deleteQuery = userDatabase.child("Users").orderByChild("userID").equalTo(profileIDList.get(position));
+                userDatabase = FirebaseDatabase.getInstance().getReference("GroupUsers");
+                String groupID = GroupManager.getGroupID();
+                String ownerID = GroupManager.getOwnerID();
+                Query deleteQuery = userDatabase.child(ownerID).child(groupID).orderByChild("userID").equalTo(profileIDList.get(position));
 
                 deleteQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -238,27 +329,39 @@ public class UsersSearchAdapter extends RecyclerView.Adapter<UsersSearchAdapter.
                 });
 //                Toast.makeText(context, "Deleting User: " + profileIDList.get(position), Toast.LENGTH_LONG).show();
             });
-            holder.amountSave.setOnClickListener(view -> {
-                userDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(profileIDList.get(position));
+            // endregion
+            // endregion
+        } else if (CapiUserManager.getUserType().equals("GroupDefaultUser")) {
+            // region User Holder Left Items
+            holder.user_holder_image_save.setVisibility(View.GONE);
+            holder.user_holder_swipe_left_text_editor_container.setVisibility(View.GONE);
+            // endregion
 
-                System.out.println("save imag clicked");
-//                Toast.makeText(context, "Saving  User Amount: " + profileIDList.get(position), Toast.LENGTH_LONG).show();
-                Map<String, Object> balanceLinksUpdateMap = new HashMap<>();
-                balanceLinksUpdateMap.put("validation", holder.user_holder_editText.getText().toString());
-                userDatabase.updateChildren(balanceLinksUpdateMap).addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(context, "Validation Text Updated", Toast.LENGTH_SHORT).show();
-                        AlertCreator.showSuccessAlert((Activity) context, "Success!", "Validation Text Updated!");
-                        Intent intent = ((Activity) context).getIntent();
-                        intent.putExtra("userID", CapiUserManager.getCurrentUserID());
-                        ((Activity) context).finish();
-                        context.startActivity(intent);
-                    } else {
-                        Toast.makeText(context, Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
-                        AlertCreator.showSuccessAlert((Activity) context, "Error!", task.getException().getMessage());
-                    }
-                });
-            });
+            // region User Holder Middle Items
+            holder.userBalance.setVisibility(View.GONE);
+            // endregion
+
+            // region User Holder Right Items
+            holder.user_holder_write_nfc_tag.setVisibility(View.GONE);
+            holder.user_holder_delete_user.setVisibility(View.GONE);
+            holder.user_holder_logout_user.setVisibility(View.GONE);
+            // endregion
+        } else if (CapiUserManager.getUserType().equals("SupportRep")) {
+            // region User Holder Left Items
+            holder.user_holder_image_save.setVisibility(View.GONE);
+            holder.user_holder_swipe_left_text_editor_container.setVisibility(View.GONE);
+            // endregion
+
+            // region User Holder Middle Items
+
+            // endregion
+
+            // region User Holder Right Items
+//            holder.user_holder_write_nfc_tag.setVisibility(View.GONE);
+            holder.user_holder_swipe_right_text_editor_container.setVisibility(View.GONE);
+            holder.user_holder_delete_user.setVisibility(View.GONE);
+            holder.user_holder_logout_user.setVisibility(View.GONE);
+            // endregion
         } else {
 
 //            holder.userHolderMainContainer.setOnClickListener(view -> {
@@ -267,57 +370,17 @@ public class UsersSearchAdapter extends RecyclerView.Adapter<UsersSearchAdapter.
 //                userProfileIntent.putExtra("userID", profileIDList.get(position));
 //                context.startActivity(userProfileIntent);
 //            });
-            holder.user_holder_logout_user.setVisibility(View.VISIBLE);
-            holder.user_holder_delete_user.setVisibility(View.GONE);
-            holder.userBalance.setText(userBalanceList.get(position) + "");
-            holder.user_holder_editText.setText(userBalanceList.get(position) + "");
-            holder.user_holder_editText_tag.setText(userSearchTagList.get(position));
+
+            // region User Holder Left Items
             holder.user_holder_editText.setHint("Amount");
-            holder.user_holder_logout_user.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    userDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(profileIDList.get(position));
-                    System.out.println("save imag clicked");
-                    Map<String, Object> logoutUpdateLink = new HashMap<>();
-                    logoutUpdateLink.put("logged_in", "false");
-                    userDatabase.updateChildren(logoutUpdateLink).addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(context, "User Logged Out", Toast.LENGTH_SHORT).show();
-                            AlertCreator.showSuccessAlert((Activity) context, "User Logged Out", "You logged out a user with ID " + profileIDList.get(position));
-                            Intent intent = ((Activity) context).getIntent();
-                            intent.putExtra("userID", CapiUserManager.getCurrentUserID());
-                            ((Activity) context).finish();
-                            context.startActivity(intent);
-                        } else {
-                            Toast.makeText(context, Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    });
-                }
-            });
+            String userBalanceAmount = userBalanceList.get(position).toString();
+            holder.user_holder_editText.setText(userBalanceAmount);
 
-            holder.user_holder_write_nfc_tag.setOnClickListener(view -> {
-                Map<String, Object> tagLinksInsertMap = new HashMap<>();
-                tagLinksInsertMap.put("payDue", holder.user_holder_editText_tag.getText().toString());
-                userDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(profileIDList.get(position));
-
-                userDatabase.updateChildren(tagLinksInsertMap).addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-//                        notifyDataSetChanged();8
-//                        notifyItemChanged(position);
-                        Toast.makeText(context, "Pay Due Date Updated", Toast.LENGTH_SHORT).show();
-                        Intent intent = ((Activity) context).getIntent();
-                        intent.putExtra("userID", CapiUserManager.getCurrentUserID());
-                        ((Activity) context).finish();
-                        context.startActivity(intent);
-                    } else {
-                        Toast.makeText(context, Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                });
-
-//                Toast.makeText(context,"Tag Inserted"+holder.user_holder_editText_tag.getText().toString(),Toast.LENGTH_SHORT).show();
-            });
-            holder.amountSave.setOnClickListener(view -> {
-                userDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(profileIDList.get(position));
+            // region Set User Balance (user_holder_image_save) - (For Admin Only)
+            holder.user_holder_image_save.setOnClickListener(view -> {
+                String groupID = GroupManager.getGroupID();
+                String ownerID = GroupManager.getOwnerID();
+                userDatabase = FirebaseDatabase.getInstance().getReference("GroupUsers").child(ownerID).child(groupID).child(profileIDList.get(position));
 //                userDatabase.keepSynced(true);
                 System.out.println("save imag clicked");
 //                Toast.makeText(context, "Saving  User Amount: " + profileIDList.get(position), Toast.LENGTH_LONG).show();
@@ -337,38 +400,69 @@ public class UsersSearchAdapter extends RecyclerView.Adapter<UsersSearchAdapter.
                     }
                 });
             });
-        }
+            // endregion
+            // endregion
 
+            // region User Holder Middle Items
+            holder.userBalance.setText(userBalanceList.get(position) + "");
+            // endregion
 
-        CapiUserManager.loadUserData(context);
-        if (CapiUserManager.userDataExists()) {
-            // region Beta Feature
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference reference = database.getReference("Users").child(profileIDList.get(position));
-            reference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    try {
-                        // If the currently logged in user sponsored the loaded user, it shows indicator on the loaded user's profile
-                        final String userSponsorID = Objects.requireNonNull(dataSnapshot.child("userSponsorID").getValue()).toString();
-                        if (Objects.requireNonNull(userSponsorID).compareToIgnoreCase(CapiUserManager.getCurrentUserID()) == 0) {
-                            holder.user_sponsor_indicator.setVisibility(View.VISIBLE);
-                        }
-                    } catch (Exception e) {
-                        Log.d("Exception", e.getMessage());
+            // region User Holder Right Items
+            holder.user_holder_editText_tag.setText(userSearchTagList.get(position));
+            holder.user_holder_delete_user.setVisibility(View.GONE);
+            holder.user_holder_logout_user.setVisibility(View.VISIBLE);
+
+            // region Change User's Pay Due (user_holder_write_nfc_tag) - (For Admin Only)
+            holder.user_holder_write_nfc_tag.setOnClickListener(view -> {
+                Map<String, Object> tagLinksInsertMap = new HashMap<>();
+                tagLinksInsertMap.put("payDue", holder.user_holder_editText_tag.getText().toString());
+                String groupID = GroupManager.getGroupID();
+                String ownerID = GroupManager.getOwnerID();
+                userDatabase = FirebaseDatabase.getInstance().getReference("GroupUsers").child(ownerID).child(groupID).child(profileIDList.get(position));
+
+                userDatabase.updateChildren(tagLinksInsertMap).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+//                        notifyDataSetChanged();8
+//                        notifyItemChanged(position);
+                        Toast.makeText(context, "Pay Due Date Updated", Toast.LENGTH_SHORT).show();
+                        Intent intent = ((Activity) context).getIntent();
+                        intent.putExtra("userID", CapiUserManager.getCurrentUserID());
+                        ((Activity) context).finish();
+                        context.startActivity(intent);
+                    } else {
+                        Toast.makeText(context, Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
                     }
+                });
 
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
+//                Toast.makeText(context,"Tag Inserted"+holder.user_holder_editText_tag.getText().toString(),Toast.LENGTH_SHORT).show();
             });
             // endregion
+
+            // region Logout User (user_holder_logout_user) - (For Admin Only)
+            holder.user_holder_logout_user.setOnClickListener(v -> {
+                String groupID = GroupManager.getGroupID();
+                String ownerID = GroupManager.getOwnerID();
+                userDatabase = FirebaseDatabase.getInstance().getReference("GroupUsers").child(ownerID).child(groupID).child(profileIDList.get(position));
+                System.out.println("save imag clicked");
+                Map<String, Object> logoutUpdateLink = new HashMap<>();
+                logoutUpdateLink.put("logged_in", "false");
+                userDatabase.updateChildren(logoutUpdateLink).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(context, "User Logged Out", Toast.LENGTH_SHORT).show();
+                        AlertCreator.showSuccessAlert((Activity) context, "User Logged Out", "You logged out a user with ID " + profileIDList.get(position));
+                        Intent intent = ((Activity) context).getIntent();
+                        intent.putExtra("userID", CapiUserManager.getCurrentUserID());
+                        ((Activity) context).finish();
+                        context.startActivity(intent);
+                    } else {
+                        Toast.makeText(context, Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+            });
+            // endregion
+            // endregion
         }
-        System.out.println("*************************************");
-        // holder.userName.setOnClickListener(v -> Toast.makeText(context, "Full Name Clicked", Toast.LENGTH_SHORT).show());
+        // endregion
     }
     // endregion
 

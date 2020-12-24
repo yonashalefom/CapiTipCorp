@@ -161,7 +161,7 @@
             tools:ignore="MissingPrefix">
 
             <FrameLayout
-                android:id="@+id/user_holder_write_nfc_tag_add"
+                android:id="@+id/user_holder_swipe_right_text_editor_container"
                 android:layout_width="200dp"
                 android:layout_height="match_parent"
                 android:background="#59176E7B">
@@ -190,25 +190,6 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/nfc_image_update"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:visibility="gone">
-
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginRight="16dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_capitipalism_nfc_tag" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
             </FrameLayout>
 
             <FrameLayout
@@ -265,7 +246,7 @@
 
             <FrameLayout
                 android:id="@+id/user_holder_logout_user"
-                android:layout_width="match_parent"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:background="#EDB5B5">
 
@@ -295,7 +276,7 @@
         <!--LEFT-->
 
         <LinearLayout
-            android:layout_width="200dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             app:bring_to_clamp="100dp"
             app:clamp="self"
@@ -304,7 +285,7 @@
             tools:ignore="MissingPrefix">
 
             <FrameLayout
-                android:id="@+id/user_holder_delete_user1"
+                android:id="@+id/user_holder_image_save"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="#EAEAEA">
@@ -314,7 +295,6 @@
                     android:layout_height="match_parent">
 
                     <ImageView
-                        android:id="@+id/user_holder_image_save"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginStart="16dp"
@@ -330,8 +310,8 @@
             </FrameLayout>
 
             <FrameLayout
-                android:id="@+id/user_holder_delete_user2"
-                android:layout_width="match_parent"
+                android:id="@+id/user_holder_swipe_left_text_editor_container"
+                android:layout_width="200dp"
                 android:layout_height="match_parent"
                 android:background="#F3F3F3">
 

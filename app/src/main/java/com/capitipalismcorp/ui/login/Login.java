@@ -111,6 +111,8 @@ public class Login extends AppCompatActivity {
                 startActivity(new Intent(Login.this, SearchUser.class));
             } else if (CapiUserManager.getUserType().equals("GroupAdmin")) {
                 startActivity(new Intent(Login.this, Profile.class).putExtra("userID", CapiUserManager.getCurrentUserID()));
+            } else if (CapiUserManager.getUserType().equals("SupportRep")) {
+                startActivity(new Intent(Login.this, SearchUser.class).putExtra("userID", CapiUserManager.getCurrentUserID()));
             }
         }
     }
@@ -233,6 +235,10 @@ public class Login extends AppCompatActivity {
                                 } else if (userType.compareTo("GroupAdmin") == 0) {
                                     login_progress_register.setVisibility(View.INVISIBLE);
                                     startActivity(new Intent(Login.this, LoginColorConfirmation.class).putExtra("userID", uID).putExtra("userType", "GroupAdmin"));
+                                    break;
+                                } else if (userType.compareTo("SupportRep") == 0) {
+                                    login_progress_register.setVisibility(View.INVISIBLE);
+                                    startActivity(new Intent(Login.this, LoginColorConfirmation.class).putExtra("userID", uID).putExtra("userType", "SupportRep"));
                                     break;
                                 }
                             }

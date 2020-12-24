@@ -25,6 +25,12 @@
             app:key="sync"
             app:title="@string/sync_title" />
 
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            app:defaultValue="true"
+            app:key="1s2sFeature"
+            app:title="1s and 2s feature" />
+
 <!--        <SwitchPreferenceCompat-->
 <!--            app:dependency="sync"-->
 <!--            app:key="attachment"-->
