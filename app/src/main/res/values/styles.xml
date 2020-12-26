@@ -16,4 +16,13 @@
 
     <!-- endregion -->
 
+    <!-- Support Chat Theme -->
+    <style name="ChatTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/capitipalism_primary</item>
+        <item name="colorPrimaryDark">@color/capitipalism_primary</item>
+        <item name="colorAccent">@color/capitipalism_accent</item>
+        <item name="actionBarSize">60dp</item>
+    </style>
+    <!-- endregion -->
+
 </resources>

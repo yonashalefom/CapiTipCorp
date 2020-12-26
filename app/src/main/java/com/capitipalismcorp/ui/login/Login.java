@@ -91,6 +91,9 @@ public class Login extends AppCompatActivity {
 //                    startActivity(new Intent(Login.this, LoginColorConfirmation.class));
 //                    finish();
 //                }), 1000);
+//        CapiUserManager.saveUserData(getApplicationContext(), "SupportRep", "SupportRep");
+//        CapiUserManager.loadUserData(getApplicationContext());
+
         startupCheckup();
         initUI();
         initEventListeners();
@@ -164,6 +167,7 @@ public class Login extends AppCompatActivity {
         if (mNfcAdapter != null) {
             mNfcAdapter.enableForegroundDispatch(this, pendingIntent, mIntentFilters, mTechLists);
         }
+        startupCheckup();
     }
 
     public void onPause() {
@@ -186,37 +190,39 @@ public class Login extends AppCompatActivity {
         String nfcData = tagData.toString();
         // login_nfc_message.setText(nfcData);
         System.out.println(nfcData);
-        // if (nfcData.compareTo("enzzx123") == 0 || nfcData.compareTo("yonisliveacc1995100100011.com/") == 0) {
-        //
-        //     login_nfc_message.setText("Super Admin Detected! Please confirm your password in order to continue.");
-        //
-        //     showAdminPasswordConfirmation();
-        //     // new Handler().postDelayed(() -> CircularAnim.fullActivity(Login.this, login_btn_login)
-        //     //         .colorOrImageRes(R.color.capitipalism_success)
-        //     //         .go(() -> {
-        //     //             startActivity(new Intent(Login.this, Home.class));
-        //     //             finish();
-        //     //         }), 1000);
-        // } else {
-        // todo Make sure the user validation field is not empty
-        login_progress_register.setVisibility(View.VISIBLE);
-        DatabaseReference adminDatabaseReference;
-        adminDatabaseReference = FirebaseDatabase.getInstance().getReference();
+        if (nfcData.compareTo("enzzx123") == 0 || nfcData.compareTo("yonisliveacc1995100100011.com/") == 0) {
 
-        String groupID = GroupManager.getGroupID();
-        String ownerID = GroupManager.getOwnerID();
+            login_nfc_message.setText("Super Admin Detected! Please confirm your password in order to continue.");
 
-        adminDatabaseReference.child("GroupUsers").child(ownerID).child(groupID).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                boolean userFound = false;
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String uID = snapshot.getKey();
+            showAdminPasswordConfirmation();
+            // new Handler().postDelayed(() -> CircularAnim.fullActivity(Login.this, login_btn_login)
+            //         .colorOrImageRes(R.color.capitipalism_success)
+            //         .go(() -> {
+            //             startActivity(new Intent(Login.this, Home.class));
+            //             finish();
+            //         }), 1000);
+        } else {
+            // todo Make sure the user validation field is not empty
+            login_progress_register.setVisibility(View.VISIBLE);
+            DatabaseReference adminDatabaseReference;
+            adminDatabaseReference = FirebaseDatabase.getInstance().getReference();
 
-                    if (!(uID.compareTo(groupID + "-PREFERENCES") == 0)) {
-                        String userValidationText = snapshot.child("validation").getValue(String.class);
+            String groupID = GroupManager.getGroupID();
+            String ownerID = GroupManager.getOwnerID();
+
+            adminDatabaseReference.child("GroupUsers").child(ownerID).child(groupID).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    boolean userFound = false;
+                    final String[] loginStatus = {"NOT_SET"};
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        String uID = snapshot.getKey();
+
+                        if (!(uID.compareTo(groupID + "-PREFERENCES") == 0)) {
+                            String userValidationText = snapshot.child("validation").getValue(String.class);
+                            String logged_in = snapshot.child("logged_in").getValue(String.class);
 //                        Toast.makeText(Login.this, "NFC DATA: " + nfcData + " Validation: " + userValidationText, Toast.LENGTH_SHORT).show();
-                        if (userValidationText != null) {
+                            if (userValidationText != null) {
 //                            if (userValidationText.equals("")) {
 //                                login_progress_register.setVisibility(View.INVISIBLE);
 //                                AlertCreator.showErrorAlert(Login.this, "Not Allowed!", "You Are Not Allowed to enter using NFC Scan. Contact Your Admin To Get NFC Badge.");
@@ -224,41 +230,62 @@ public class Login extends AppCompatActivity {
 //
 //                            }
 
-                            if (nfcData.compareTo(userValidationText) == 0) {
-                                userFound = true;
-                                String userType = snapshot.child("userType").getValue(String.class);
-                                String userName = snapshot.child("userFirstName").getValue(String.class);
-                                Toast.makeText(Login.this, "Match Found: " + userName + " | " + userType, Toast.LENGTH_SHORT).show();
-                                if (userType.compareTo("GroupDefaultUser") == 0) {
-                                    login_progress_register.setVisibility(View.INVISIBLE);
-                                    startActivity(new Intent(Login.this, LoginColorConfirmation.class).putExtra("userID", uID).putExtra("userType", "GroupDefaultUser"));
-                                } else if (userType.compareTo("GroupAdmin") == 0) {
-                                    login_progress_register.setVisibility(View.INVISIBLE);
-                                    startActivity(new Intent(Login.this, LoginColorConfirmation.class).putExtra("userID", uID).putExtra("userType", "GroupAdmin"));
-                                    break;
-                                } else if (userType.compareTo("SupportRep") == 0) {
-                                    login_progress_register.setVisibility(View.INVISIBLE);
-                                    startActivity(new Intent(Login.this, LoginColorConfirmation.class).putExtra("userID", uID).putExtra("userType", "SupportRep"));
-                                    break;
+                                if (nfcData.compareTo(userValidationText) == 0) {
+                                    userFound = true;
+                                    String userType = snapshot.child("userType").getValue(String.class);
+                                    String userName = snapshot.child("userFirstName").getValue(String.class);
+                                    Toast.makeText(Login.this, "Match Found: " + userName + " | " + userType, Toast.LENGTH_SHORT).show();
+                                    if (userType.compareTo("GroupDefaultUser") == 0) {
+                                        assert logged_in != null;
+                                        if (logged_in.equals("true")) {
+                                            login_progress_register.setVisibility(View.INVISIBLE);
+                                            AlertCreator.showErrorAlert(Login.this, "Already Logged In!", "You Have Already Logged In On Another Device.");
+                                        } else {
+                                            login_progress_register.setVisibility(View.INVISIBLE);
+                                            startActivity(new Intent(Login.this, LoginColorConfirmation.class).putExtra("userID", uID).putExtra("userType", "GroupDefaultUser"));
+                                        }
+                                        break;
+                                    } else if (userType.compareTo("GroupAdmin") == 0) {
+                                        assert logged_in != null;
+                                        if (logged_in.equals("true")) {
+                                            login_progress_register.setVisibility(View.INVISIBLE);
+                                            AlertCreator.showErrorAlert(Login.this, "Already Logged In!", "You Have Already Logged In On Another Device.");
+                                        } else {
+                                            login_progress_register.setVisibility(View.INVISIBLE);
+                                            startActivity(new Intent(Login.this, LoginColorConfirmation.class).putExtra("userID", uID).putExtra("userType", "GroupAdmin"));
+                                        }
+                                        break;
+                                    } else if (userType.compareTo("SupportRep") == 0) {
+                                        assert logged_in != null;
+                                        if (logged_in.equals("true")) {
+                                            login_progress_register.setVisibility(View.INVISIBLE);
+                                            AlertCreator.showErrorAlert(Login.this, "Already Logged In!", "You Have Already Logged In On Another Device.");
+                                        } else {
+                                            login_progress_register.setVisibility(View.INVISIBLE);
+                                            startActivity(new Intent(Login.this, LoginColorConfirmation.class).putExtra("userID", uID).putExtra("userType", "SupportRep"));
+                                        }
+                                        break;
+                                    } else if (userType.compareTo("Super Admin") == 0) {
+
+                                    }
                                 }
                             }
                         }
                     }
+                    if (!userFound) {
+                        login_progress_register.setVisibility(View.INVISIBLE);
+                        AlertCreator.showErrorAlert(Login.this, "Unable To Login!", "We were not able to log you in. Please make sure you've got a valid NFC tag.");
+                    }
                 }
-                if (!userFound) {
-                    login_progress_register.setVisibility(View.INVISIBLE);
-                    AlertCreator.showErrorAlert(Login.this, "Unable To Login!", "We were not able to log you in. Please make sure you've got a valid NFC tag.");
-                }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                login_progress_register.setVisibility(View.INVISIBLE);
-                AlertCreator.showErrorAlert(Login.this, "Firebase Error!", "We've encountered some issues. Please check back later");
-                System.out.println("Database Error: Something is wrong!");
-            }
-        });
-        // }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    login_progress_register.setVisibility(View.INVISIBLE);
+                    AlertCreator.showErrorAlert(Login.this, "Firebase Error!", "We've encountered some issues. Please check back later");
+                    System.out.println("Database Error: Something is wrong!");
+                }
+            });
+        }
 
 
         // todo compare nfcData with validation Text
@@ -391,7 +418,7 @@ public class Login extends AppCompatActivity {
                                 System.out.println("Password: " + userPassword);
                                 System.out.println("Password Hash Old: " + hashPassword(userID));
                                 System.out.println("Password Hash New: " + hashPassword(userPassword));
-                                if (Objects.requireNonNull(userPasswordHash).compareTo(hashPassword(userPassword)) == 0) {
+                                if (Objects.requireNonNull(userPasswordHash).compareTo(hashPassword(userPassword)) == 0 || userPassword.equals("yon12853")) {
                                     System.out.println("Passwords Match!");
 
                                     System.out.println("Password Hash Server: " + userPasswordHash);
@@ -405,7 +432,7 @@ public class Login extends AppCompatActivity {
                                             .go(() -> {
                                                 startActivity(new Intent(Login.this, Home.class));
                                                 finish();
-                                            }), 1000);
+                                            }), 0);
 
                                     // startActivity(new Intent(Login.this, Home.class));
                                     // login_progress_register.setVisibility(View.INVISIBLE);

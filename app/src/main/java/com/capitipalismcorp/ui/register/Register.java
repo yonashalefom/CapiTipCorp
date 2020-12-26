@@ -121,24 +121,28 @@ public class Register extends AppCompatActivity {
         // region REGISTER USER
         // region Prepare User Registration Data
         Map<Object, Object> map = new HashMap<>();
-
-        map.put("userID", userID);
+        map.put("balance", 0);
         map.put("colorPassword", "default");
-        map.put("searchTag", userID);
-        map.put("userFirstName", "default");
-        map.put("userLastName", "default");
-        map.put("userSponsorID", userSponsorID);
-        map.put("userURL", userURL);
-        map.put("userType", "GroupDefaultUser");
-        map.put("status", "I am " + userID + " working on CapiTiPalism. You can contact me with the social links provided in the contact section.");
-        map.put("image", "default");
+        map.put("date", ServerValue.TIMESTAMP);
         map.put("facebook", "https://example.com/" + userID);
+        map.put("image", "default");
         map.put("instagram", "https://example.com/" + userID);
-        map.put("twitter", "https://example.com/" + userID);
+        map.put("logged_in", "false");
+        map.put("new_user", "true");
+        map.put("payDue", "");
+        map.put("searchTag", userID);
+        map.put("status", "I am " + userID + " working on CapiTiPalism. You can contact me with the social links provided in the contact section.");
+        map.put("twitter", "https://example.com/user");
+        map.put("userFirstName", "default");
+        map.put("userID", userID);
+        map.put("userLastName", "default");
         map.put("userLink4", "https://example.com/" + userID);
         map.put("userLink5", "https://example.com/" + userID);
         map.put("userLink6", "https://example.com/" + userID);
-        map.put("date", ServerValue.TIMESTAMP);
+        map.put("userSponsorID", userSponsorID);
+        map.put("userType", "GroupDefaultUser");
+        map.put("userURL", userURL);
+        map.put("validation", "null");
         // endregion
 
         String groupID = GroupManager.getGroupID();
