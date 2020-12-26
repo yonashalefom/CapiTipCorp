@@ -103,7 +103,7 @@ public class DashboardMenuAdapter extends RecyclerView.Adapter<DashboardMenuAdap
                     break;
             }
         });
-        Picasso.with(mContext).load(R.drawable.ic_global_vertical_dots).into(holder.moreOptions);
+        Picasso.get().load(R.drawable.ic_global_vertical_dots).into(holder.moreOptions);
     }
 
     @Override

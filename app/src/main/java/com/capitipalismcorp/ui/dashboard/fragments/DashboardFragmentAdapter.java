@@ -208,31 +208,33 @@ public class DashboardFragmentAdapter extends RecyclerView.Adapter<RecyclerView.
                 foundUsersRecyclerView.removeAllViews();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String uID = snapshot.getKey();
-                    String status = snapshot.child("status").getValue(String.class);
-                    String userName = snapshot.child("userFirstName").getValue(String.class) + " " + snapshot.child("userLastName").getValue(String.class) + " - ID: " + uID;
-                    String profilePic = snapshot.child("image").getValue(String.class);
-                    String validation = snapshot.child("validation").getValue(String.class);
-                    String searchTag = snapshot.child("searchTag").getValue(String.class);
-                    Long balance = snapshot.child("balance").getValue(Long.class);
-                    String newUser = snapshot.child("new_user").getValue(String.class);
+                    if (!(uID.compareTo(groupID + "-PREFERENCES") == 0)) {
+                        String status = snapshot.child("status").getValue(String.class);
+                        String userName = snapshot.child("userFirstName").getValue(String.class) + " " + snapshot.child("userLastName").getValue(String.class) + " - ID: " + uID;
+                        String profilePic = snapshot.child("image").getValue(String.class);
+                        String validation = snapshot.child("validation").getValue(String.class);
+                        String searchTag = snapshot.child("searchTag").getValue(String.class);
+                        Long balance = snapshot.child("balance").getValue(Long.class);
+                        String newUser = snapshot.child("new_user").getValue(String.class);
 
-                    userIDList.add(uID);
-                    userNameList.add(userName);
-                    userSearchTagList.add(searchTag);
-                    userValidationList.add(validation);
-                    profileImageList.add(profilePic);
-                    userStatusList.add(status);
-                    userBalanceList.add(balance);
-                    userNewUserList.add(newUser);
+                        userIDList.add(uID);
+                        userNameList.add(userName);
+                        userSearchTagList.add(searchTag);
+                        userValidationList.add(validation);
+                        profileImageList.add(profilePic);
+                        userStatusList.add(status);
+                        userBalanceList.add(balance);
+                        userNewUserList.add(newUser);
 
-                    // if (searchedString.length() > 0) {
-                    //     if (counter == 15)
-                    //         break;
-                    // } else {
-                    //     foundUsersCount.setText("ALL USERS");
-                    //     if (counter == 50)
-                    //         break;
-                    // }
+                        // if (searchedString.length() > 0) {
+                        //     if (counter == 15)
+                        //         break;
+                        // } else {
+                        //     foundUsersCount.setText("ALL USERS");
+                        //     if (counter == 50)
+                        //         break;
+                        // }
+                    }
                 }
 
                 // foundUsersCount.setText("ALL USERS");
@@ -365,7 +367,9 @@ public class DashboardFragmentAdapter extends RecyclerView.Adapter<RecyclerView.
     // }
     //region get User Count
     public void getUserCount(TextView textView) {
-        userDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
+        String groupID = GroupManager.getGroupID();
+        String ownerID = GroupManager.getOwnerID();
+        userDatabase = FirebaseDatabase.getInstance().getReference("GroupUsers").child(ownerID).child(groupID);
 
         userDatabase
                 .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -374,7 +378,7 @@ public class DashboardFragmentAdapter extends RecyclerView.Adapter<RecyclerView.
                         // get total available quest
                         int userSize = (int) dataSnapshot.getChildrenCount();
                         System.out.println("User Suze IS " + userSize);
-                        textView.setText(String.valueOf(userSize));
+                        textView.setText(String.valueOf(userSize - 1));
                     }
 
                     @Override

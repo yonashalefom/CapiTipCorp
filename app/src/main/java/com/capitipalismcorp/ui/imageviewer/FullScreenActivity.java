@@ -28,7 +28,7 @@ public class FullScreenActivity extends AppCompatActivity
         message.setText("Loading Picture...");
         message.setVisibility(View.VISIBLE);
 
-        Picasso.with(getApplicationContext())
+        Picasso.get()
                 .load(url)
                 .networkPolicy(NetworkPolicy.OFFLINE)
                 .into(image, new Callback()
@@ -40,9 +40,9 @@ public class FullScreenActivity extends AppCompatActivity
                     }
 
                     @Override
-                    public void onError()
+                    public void onError(Exception e)
                     {
-                        Picasso.with(getApplicationContext())
+                        Picasso.get()
                                 .load(url)
                                 .into(image, new Callback()
                                 {
@@ -53,7 +53,7 @@ public class FullScreenActivity extends AppCompatActivity
                                     }
 
                                     @Override
-                                    public void onError()
+                                    public void onError(Exception e)
                                     {
                                         message.setVisibility(View.VISIBLE);
                                         message.setText("Error: Could not load picture.");

@@ -61,14 +61,14 @@ public class Home extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        CapiUserManager.loadUserData(getApplicationContext());
-//        if (CapiUserManager.userDataExists()) {
-//            if (!CapiUserManager.getUserType().equals("Super Admin")) {
-//                AlertCreator.showErrorAlert(this, "Invalid User", "You don't have the privileges to access this page!");
-//                startActivity(new Intent(Home.this, Login.class));
-//                finish();
-//            }
-//        }
+        CapiUserManager.loadUserData(getApplicationContext());
+        if (CapiUserManager.userDataExists()) {
+            if (!CapiUserManager.getUserType().equals("Super Admin")) {
+                AlertCreator.showErrorAlert(this, "Invalid User", "You don't have the privileges to access this page!");
+                startActivity(new Intent(Home.this, Login.class));
+                finish();
+            }
+        }
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 

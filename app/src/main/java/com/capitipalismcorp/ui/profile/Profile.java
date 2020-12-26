@@ -246,21 +246,28 @@ public class Profile extends AppCompatActivity {
 
         profile_logout_users.setOnClickListener(view -> {
             CapiUserManager.loadUserData(this);
-            String groupID = GroupManager.getGroupID();
-            String ownerID = GroupManager.getOwnerID();
-            DatabaseReference userDatabase = FirebaseDatabase.getInstance().getReference("GroupUsers").child(ownerID).child(groupID).child(CapiUserManager.getCurrentUserID());
-            Map<String, Object> logoutUpdateLink = new HashMap<>();
-            logoutUpdateLink.put("logged_in", "false");
-            userDatabase.updateChildren(logoutUpdateLink).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    Toast.makeText(this, "You Are Logged Out", Toast.LENGTH_SHORT).show();
-                    CapiUserManager.removeUserData(getApplicationContext());
-                    startActivity(new Intent(Profile.this, Login.class));
-                    // finish();
-                } else {
-                    Toast.makeText(this, Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
-                }
-            });
+            if (!CapiUserManager.getUserType().equals("Super Admin")) {
+                String groupID = GroupManager.getGroupID();
+                String ownerID = GroupManager.getOwnerID();
+                DatabaseReference userDatabase = FirebaseDatabase.getInstance().getReference("GroupUsers").child(ownerID).child(groupID).child(CapiUserManager.getCurrentUserID());
+                Map<String, Object> logoutUpdateLink = new HashMap<>();
+                logoutUpdateLink.put("logged_in", "false");
+                userDatabase.updateChildren(logoutUpdateLink).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(this, "You Are Logged Out", Toast.LENGTH_SHORT).show();
+                        CapiUserManager.removeUserData(getApplicationContext());
+                        startActivity(new Intent(Profile.this, Login.class));
+                        // finish();
+                    } else {
+                        Toast.makeText(this, Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+            } else {
+                Toast.makeText(this, "You Are Logged Out", Toast.LENGTH_SHORT).show();
+                CapiUserManager.removeUserData(getApplicationContext());
+                startActivity(new Intent(Profile.this, Login.class));
+                // finish();
+            }
         });
 
         profile_admin_settings.setOnClickListener(view -> {
@@ -403,105 +410,208 @@ public class Profile extends AppCompatActivity {
             userDatabase.removeEventListener(userListener);
         }
 
-        // Initialize/Update realtime user data such as name, status, image
-        String groupID = GroupManager.getGroupID();
-        String ownerID = GroupManager.getOwnerID();
-        userDatabase = FirebaseDatabase.getInstance().getReference("GroupUsers").child(ownerID).child(groupID).child(userID);
-        // userDatabase.keepSynced(true); // For offline use
-        userListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                try {
-                    String firstName = Objects.requireNonNull(dataSnapshot.child("userFirstName").getValue()).toString();
-                    String lastName = Objects.requireNonNull(dataSnapshot.child("userLastName").getValue()).toString();
-                    String userSponsoredBy = Objects.requireNonNull(dataSnapshot.child("userSponsorID").getValue()).toString();
-                    String layoutName = firstName + " " + lastName;
-                    String layoutUserID = Objects.requireNonNull(dataSnapshot.child("userID").getValue()).toString();
-                    String layoutStatus = Objects.requireNonNull(dataSnapshot.child("status").getValue()).toString();
-                    final String layoutImage = Objects.requireNonNull(dataSnapshot.child("image").getValue()).toString();
+        String dbReference = "Users";
 
-                    String userFacebookLoaded = Objects.requireNonNull(dataSnapshot.child("facebook").getValue()).toString();
-                    String userTwitterLoaded = Objects.requireNonNull(dataSnapshot.child("twitter").getValue()).toString();
-                    String userInstagramLoaded = Objects.requireNonNull(dataSnapshot.child("instagram").getValue()).toString();
-                    String userLink4Loaded = Objects.requireNonNull(dataSnapshot.child("userLink4").getValue()).toString();
-                    String userLink5Loaded = Objects.requireNonNull(dataSnapshot.child("userLink5").getValue()).toString();
-                    String userLink6Loaded = Objects.requireNonNull(dataSnapshot.child("userLink6").getValue()).toString();
+        CapiUserManager.loadUserData(getApplicationContext());
+        if (CapiUserManager.getUserType().equals("Super Admin")) {
+            dbReference = "SuperAdmins";
+            try {
+                userDatabase = FirebaseDatabase.getInstance().getReference().child(dbReference).child(userID);
+                userDatabase.keepSynced(true); // For offline use
+                userListener = new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        try {
+                            String firstName = Objects.requireNonNull(dataSnapshot.child("userFirstName").getValue()).toString();
+                            String lastName = Objects.requireNonNull(dataSnapshot.child("userLastName").getValue()).toString();
+                            String userSponsoredBy = Objects.requireNonNull(dataSnapshot.child("userSponsorID").getValue()).toString();
+                            String layoutName = firstName + " " + lastName;
+                            String layoutUserID = Objects.requireNonNull(dataSnapshot.child("userID").getValue()).toString();
+                            String layoutStatus = Objects.requireNonNull(dataSnapshot.child("status").getValue()).toString();
+                            final String layoutImage = Objects.requireNonNull(dataSnapshot.child("image").getValue()).toString();
 
-                    System.out.println("****************************************");
-                    System.out.println("Layout Name: " + layoutName);
-                    System.out.println("****************************************");
+                            String userFacebookLoaded = Objects.requireNonNull(dataSnapshot.child("facebook").getValue()).toString();
+                            String userTwitterLoaded = Objects.requireNonNull(dataSnapshot.child("twitter").getValue()).toString();
+                            String userInstagramLoaded = Objects.requireNonNull(dataSnapshot.child("instagram").getValue()).toString();
 
-                    name.setText(layoutName);
-                    profile_user_id.setText("ID: " + layoutUserID);
-                    profileSponsoredBy.setText(userSponsoredBy);
-                    // status.setText(layoutStatus);
+                            name.setText(layoutName);
+                            profile_user_id.setText("ID: " + layoutUserID);
+                            profileSponsoredBy.setText(userSponsoredBy);
+                            // status.setText(layoutStatus);
 
-                    userFacebook.setText(userFacebookLoaded);
-                    userTwitter.setText(userTwitterLoaded);
-                    userInstagram.setText(userInstagramLoaded);
-                    userLink4.setText(userLink4Loaded);
-                    userLink5.setText(userLink5Loaded);
-                    userLink6.setText(userLink6Loaded);
+                            userFacebook.setText(userFacebookLoaded);
+                            userTwitter.setText(userTwitterLoaded);
+                            userInstagram.setText(userInstagramLoaded);
 
-                    // region Fetch User Profile Picture
-                    if (!layoutImage.equals("default")) {
-                        Picasso.with(getApplicationContext())
-                                .load(layoutImage)
-                                .resize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, getResources().getDisplayMetrics()))
-                                .centerCrop()
-                                .networkPolicy(NetworkPolicy.OFFLINE)
-                                .placeholder(R.drawable.ic_user_placeholder_avatar_1)
-                                .error(R.drawable.ic_user_placeholder_avatar_1)
-                                .into(image, new Callback() {
-                                    @Override
-                                    public void onSuccess() {
+                            // region Fetch User Profile Picture
+                            if (!layoutImage.equals("default")) {
+                                Picasso.get()
+                                        .load(layoutImage)
+                                        .resize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, getResources().getDisplayMetrics()))
+                                        .centerCrop()
+                                        .networkPolicy(NetworkPolicy.OFFLINE)
+                                        .placeholder(R.drawable.ic_user_placeholder_avatar_1)
+                                        .error(R.drawable.ic_user_placeholder_avatar_1)
+                                        .into(image, new Callback() {
+                                            @Override
+                                            public void onSuccess() {
 
-                                    }
+                                            }
 
-                                    @Override
-                                    public void onError() {
-                                        Picasso.with(getApplicationContext())
-                                                .load(layoutImage)
-                                                .resize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, getResources().getDisplayMetrics()))
-                                                .centerCrop()
-                                                .placeholder(R.drawable.ic_user_placeholder_avatar_1)
-                                                .error(R.drawable.ic_user_placeholder_avatar_1)
-                                                .into(image);
-                                    }
+                                            @Override
+                                            public void onError(Exception e) {
+                                                Picasso.get()
+                                                        .load(layoutImage)
+                                                        .resize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, getResources().getDisplayMetrics()))
+                                                        .centerCrop()
+                                                        .placeholder(R.drawable.ic_user_placeholder_avatar_1)
+                                                        .error(R.drawable.ic_user_placeholder_avatar_1)
+                                                        .into(image);
+                                            }
+                                        });
+
+                                image.setOnClickListener(view -> {
+                                    Intent intent = new Intent(Profile.this, FullScreenActivity.class);
+                                    intent.putExtra("imageUrl", layoutImage);
+                                    startActivity(intent);
                                 });
+                            } else {
+                                image.setImageResource(R.drawable.ic_user_placeholder_avatar_1);
+                            }
+                            // endregion
 
-                        image.setOnClickListener(view -> {
-                            Intent intent = new Intent(Profile.this, FullScreenActivity.class);
-                            intent.putExtra("imageUrl", layoutImage);
-                            startActivity(intent);
-                        });
-                    } else {
-                        image.setImageResource(R.drawable.ic_user_placeholder_avatar_1);
-                    }
-                    // endregion
-
-                    CapiUserManager.loadUserData(getApplicationContext());
-                    if (userID.equals(CapiUserManager.getCurrentUserID()) || userSponsoredBy.equals(CapiUserManager.getCurrentUserID())) {
-                        if (userSponsoredBy.equals(CapiUserManager.getCurrentUserID())) {
-                            profile_sponsored_by_icon.setBackground(getResources().getDrawable(R.drawable.circular_golden_bordersolid));
-                            profile_sponsored_by_icon.setImageResource(R.drawable.ic_capitipalism_golden_star);
+                            CapiUserManager.loadUserData(getApplicationContext());
+                            if (userID.equals(CapiUserManager.getCurrentUserID()) || userSponsoredBy.equals(CapiUserManager.getCurrentUserID())) {
+                                System.out.println("&&&&&&&&&^^^^^^^^^^^^^^^^^^^");
+                                System.out.println("User ID Matchs with the current user id");
+                                if (userSponsoredBy.equals(CapiUserManager.getCurrentUserID())) {
+                                    profile_sponsored_by_icon.setBackground(getResources().getDrawable(R.drawable.circular_golden_bordersolid));
+                                    profile_sponsored_by_icon.setImageResource(R.drawable.ic_capitipalism_golden_star);
+                                }
+                                initializeCurrentUserProfile();
+                            } else {
+                                System.out.println("&&&&&&&&&^^^^^^^^^^^^^^^^^^^");
+                                System.out.println("User ID does not Match with the current user id");
+                                menu.setVisibility(View.INVISIBLE);
+                            }
+                        } catch (Exception e) {
+                            Log.d("PROFILE ACTIVITY", "userDatabase listener exception: " + e.getMessage());
+                            e.printStackTrace();
                         }
-                        initializeCurrentUserProfile();
-                    } else {
-                        menu.setVisibility(View.INVISIBLE);
                     }
-                } catch (Exception e) {
-                    Log.d("PROFILE ACTIVITY", "userDatabase listener exception: " + e.getMessage());
-                    e.printStackTrace();
-                }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.d("PROFILE ACTIVITY", "userDatabase listener failed: " + databaseError.getMessage());
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.d("PROFILE ACTIVITY", "userDatabase listener failed: " + databaseError.getMessage());
+                    }
+                };
+                userDatabase.addValueEventListener(userListener);
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
+                CapiUserManager.removeUserData(getApplicationContext());
+                startActivity(new Intent(Profile.this, Login.class));
             }
-        };
-        userDatabase.addValueEventListener(userListener);
+        } else {
+            // Initialize/Update realtime user data such as name, status, image
+            String groupID = GroupManager.getGroupID();
+            String ownerID = GroupManager.getOwnerID();
+            userDatabase = FirebaseDatabase.getInstance().getReference("GroupUsers").child(ownerID).child(groupID).child(userID);
+            // userDatabase.keepSynced(true); // For offline use
+            userListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    try {
+                        String firstName = Objects.requireNonNull(dataSnapshot.child("userFirstName").getValue()).toString();
+                        String lastName = Objects.requireNonNull(dataSnapshot.child("userLastName").getValue()).toString();
+                        String userSponsoredBy = Objects.requireNonNull(dataSnapshot.child("userSponsorID").getValue()).toString();
+                        String layoutName = firstName + " " + lastName;
+                        String layoutUserID = Objects.requireNonNull(dataSnapshot.child("userID").getValue()).toString();
+                        String layoutStatus = Objects.requireNonNull(dataSnapshot.child("status").getValue()).toString();
+                        final String layoutImage = Objects.requireNonNull(dataSnapshot.child("image").getValue()).toString();
+
+                        String userFacebookLoaded = Objects.requireNonNull(dataSnapshot.child("facebook").getValue()).toString();
+                        String userTwitterLoaded = Objects.requireNonNull(dataSnapshot.child("twitter").getValue()).toString();
+                        String userInstagramLoaded = Objects.requireNonNull(dataSnapshot.child("instagram").getValue()).toString();
+                        String userLink4Loaded = Objects.requireNonNull(dataSnapshot.child("userLink4").getValue()).toString();
+                        String userLink5Loaded = Objects.requireNonNull(dataSnapshot.child("userLink5").getValue()).toString();
+                        String userLink6Loaded = Objects.requireNonNull(dataSnapshot.child("userLink6").getValue()).toString();
+
+                        System.out.println("****************************************");
+                        System.out.println("Layout Name: " + layoutName);
+                        System.out.println("****************************************");
+
+                        name.setText(layoutName);
+                        profile_user_id.setText("ID: " + layoutUserID);
+                        profileSponsoredBy.setText(userSponsoredBy);
+                        // status.setText(layoutStatus);
+
+                        userFacebook.setText(userFacebookLoaded);
+                        userTwitter.setText(userTwitterLoaded);
+                        userInstagram.setText(userInstagramLoaded);
+                        userLink4.setText(userLink4Loaded);
+                        userLink5.setText(userLink5Loaded);
+                        userLink6.setText(userLink6Loaded);
+
+                        // region Fetch User Profile Picture
+                        if (!layoutImage.equals("default")) {
+                            Picasso.get()
+                                    .load(layoutImage)
+                                    .resize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, getResources().getDisplayMetrics()))
+                                    .centerCrop()
+                                    .networkPolicy(NetworkPolicy.OFFLINE)
+                                    .placeholder(R.drawable.ic_user_placeholder_avatar_1)
+                                    .error(R.drawable.ic_user_placeholder_avatar_1)
+                                    .into(image, new Callback() {
+                                        @Override
+                                        public void onSuccess() {
+
+                                        }
+
+                                        @Override
+                                        public void onError(Exception e) {
+                                            Picasso.get()
+                                                    .load(layoutImage)
+                                                    .resize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, getResources().getDisplayMetrics()))
+                                                    .centerCrop()
+                                                    .placeholder(R.drawable.ic_user_placeholder_avatar_1)
+                                                    .error(R.drawable.ic_user_placeholder_avatar_1)
+                                                    .into(image);
+                                        }
+                                    });
+
+                            image.setOnClickListener(view -> {
+                                Intent intent = new Intent(Profile.this, FullScreenActivity.class);
+                                intent.putExtra("imageUrl", layoutImage);
+                                startActivity(intent);
+                            });
+                        } else {
+                            image.setImageResource(R.drawable.ic_user_placeholder_avatar_1);
+                        }
+                        // endregion
+
+                        CapiUserManager.loadUserData(getApplicationContext());
+                        if (userID.equals(CapiUserManager.getCurrentUserID()) || userSponsoredBy.equals(CapiUserManager.getCurrentUserID())) {
+                            if (userSponsoredBy.equals(CapiUserManager.getCurrentUserID())) {
+                                profile_sponsored_by_icon.setBackground(getResources().getDrawable(R.drawable.circular_golden_bordersolid));
+                                profile_sponsored_by_icon.setImageResource(R.drawable.ic_capitipalism_golden_star);
+                            }
+                            initializeCurrentUserProfile();
+                        } else {
+                            menu.setVisibility(View.INVISIBLE);
+                        }
+                    } catch (Exception e) {
+                        Log.d("PROFILE ACTIVITY", "userDatabase listener exception: " + e.getMessage());
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.d("PROFILE ACTIVITY", "userDatabase listener failed: " + databaseError.getMessage());
+                }
+            };
+            userDatabase.addValueEventListener(userListener);
+        }
     }
     // endregion
 

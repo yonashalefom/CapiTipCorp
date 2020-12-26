@@ -174,30 +174,54 @@ public class LoginColorConfirmation extends AppCompatActivity {
                     if (Objects.requireNonNull(userColorPassword).compareTo(String.valueOf(finalColorCode)) == 0) {
                         AlertCreator.showSuccessAlert(LoginColorConfirmation.this, "Login Success!", "Color Password Correct.");
                         login_progress_color_confirmation_page.setVisibility(View.GONE);
-                        CapiUserManager.saveUserData(getApplicationContext(), uID, userType);
-                        CapiUserManager.loadUserData(getApplicationContext());
 
                         if (userType.equals("GroupDefaultUser")) {
-                            new Handler().postDelayed(() -> CircularAnim.fullActivity(LoginColorConfirmation.this, login_btn_login)
-                                    .colorOrImageRes(R.color.capitipalism_success)
-                                    .go(() -> {
-                                        startActivity(new Intent(LoginColorConfirmation.this, SearchUser.class));
-                                        finish();
-                                    }), 1000);
+                            databaseReference.child(ownerID).child(groupID).child(uID).child("logged_in").setValue("true").addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    CapiUserManager.saveUserData(getApplicationContext(), uID, userType);
+                                    CapiUserManager.loadUserData(getApplicationContext());
+                                    new Handler().postDelayed(() -> CircularAnim.fullActivity(LoginColorConfirmation.this, login_btn_login)
+                                            .colorOrImageRes(R.color.capitipalism_success)
+                                            .go(() -> {
+                                                startActivity(new Intent(LoginColorConfirmation.this, SearchUser.class));
+                                                finish();
+                                            }), 0);
+                                } else {
+                                    AlertCreator.showErrorAlert(LoginColorConfirmation.this, "Unable To Login!", "We were not able to log you in. Please make sure you've got a valid NFC tag.");
+                                }
+                            });
                         } else if (userType.equals("GroupAdmin")) {
-                            new Handler().postDelayed(() -> CircularAnim.fullActivity(LoginColorConfirmation.this, login_btn_login)
-                                    .colorOrImageRes(R.color.capitipalism_success)
-                                    .go(() -> {
-                                        startActivity(new Intent(LoginColorConfirmation.this, Profile.class).putExtra("userID", CapiUserManager.getCurrentUserID()));
-                                        finish();
-                                    }), 1000);
+                            databaseReference.child(ownerID).child(groupID).child(uID).child("logged_in").setValue("true").addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    CapiUserManager.saveUserData(getApplicationContext(), uID, userType);
+                                    CapiUserManager.loadUserData(getApplicationContext());
+                                    new Handler().postDelayed(() -> CircularAnim.fullActivity(LoginColorConfirmation.this, login_btn_login)
+                                            .colorOrImageRes(R.color.capitipalism_success)
+                                            .go(() -> {
+                                                startActivity(new Intent(LoginColorConfirmation.this, Profile.class).putExtra("userID", CapiUserManager.getCurrentUserID()));
+                                                finish();
+                                            }), 0);
+                                } else {
+                                    AlertCreator.showErrorAlert(LoginColorConfirmation.this, "Unable To Login!", "We were not able to log you in. Please make sure you've got a valid NFC tag.");
+                                }
+                            });
                         } else if (userType.equals("SupportRep")) {
-                            new Handler().postDelayed(() -> CircularAnim.fullActivity(LoginColorConfirmation.this, login_btn_login)
-                                    .colorOrImageRes(R.color.capitipalism_success)
-                                    .go(() -> {
-                                        startActivity(new Intent(LoginColorConfirmation.this, SearchUser.class).putExtra("userID", CapiUserManager.getCurrentUserID()));
-                                        finish();
-                                    }), 1000);
+                            databaseReference.child(ownerID).child(groupID).child(uID).child("logged_in").setValue("true").addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    CapiUserManager.saveUserData(getApplicationContext(), uID, userType);
+                                    CapiUserManager.loadUserData(getApplicationContext());
+                                    new Handler().postDelayed(() -> CircularAnim.fullActivity(LoginColorConfirmation.this, login_btn_login)
+                                            .colorOrImageRes(R.color.capitipalism_success)
+                                            .go(() -> {
+                                                startActivity(new Intent(LoginColorConfirmation.this, SearchUser.class).putExtra("userID", CapiUserManager.getCurrentUserID()));
+                                                finish();
+                                            }), 0);
+                                } else {
+                                    AlertCreator.showErrorAlert(LoginColorConfirmation.this, "Unable To Login!", "We were not able to log you in. Please make sure you've got a valid NFC tag.");
+                                }
+                            });
+                        } else if (userType.equals("Super Admin")) {
+
                         }
                     } else if (Objects.requireNonNull(userColorPassword).compareToIgnoreCase("Default") == 0) {
                         login_progress_color_confirmation_page.setVisibility(View.GONE);

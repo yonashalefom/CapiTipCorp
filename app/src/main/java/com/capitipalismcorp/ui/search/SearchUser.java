@@ -5,6 +5,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -12,6 +13,7 @@ import android.nfc.NfcAdapter;
 import android.nfc.tech.Ndef;
 import android.nfc.tech.NdefFormatable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Vibrator;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -27,9 +29,14 @@ import com.capitipalismcorp.R;
 import com.capitipalismcorp.classes.CapiUserManager;
 import com.capitipalismcorp.classes.GroupManager;
 import com.capitipalismcorp.ui.adapters.UsersSearchAdapter;
+import com.capitipalismcorp.ui.dashboard.Home;
+import com.capitipalismcorp.ui.login.Login;
 import com.capitipalismcorp.ui.profile.Profile;
 import com.capitipalismcorp.ui.register.Register;
+import com.capitipalismcorp.ui.support.HomeActivity;
+import com.capitipalismcorp.ui.supportchat.ChatActivity;
 import com.github.ybq.android.spinkit.SpinKitView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,6 +52,7 @@ import java.util.Objects;
 
 import be.appfoundry.nfclibrary.utilities.sync.NfcReadUtilityImpl;
 import de.hdodenhof.circleimageview.CircleImageView;
+import top.wefor.circularanim.CircularAnim;
 
 public class SearchUser extends AppCompatActivity {
     // private FirebaseRecyclerAdapter allUsersFirebaseRecyclerAdapter;
@@ -71,10 +79,11 @@ public class SearchUser extends AppCompatActivity {
     ArrayList<String> userValidationList;
     UsersSearchAdapter searchAdapter;
     ConstraintLayout nfcStatusIndicator;
-    ImageView searchByNFCTag, registerNewUsers;
+    ImageView searchByNFCTag, registerNewUsers, search_users_contact_support;
     CircleImageView search_user_profile_picture;
     TextView tagResult, foundUsersCount;
     SpinKitView search_user_progress_indicator;
+    FloatingActionButton search_user_support_center;
 
 
     // region NFC Reader
@@ -107,6 +116,7 @@ public class SearchUser extends AppCompatActivity {
     // endregion
 
     // region Bind UI Elements
+    @SuppressLint("RestrictedApi")
     private void bindUIElements() {
         searchUsersEditText = findViewById(R.id.search_users_activity_search_box);
         foundUsersRecyclerView = findViewById(R.id.search_users_activity_list_of_found_usres);
@@ -117,6 +127,31 @@ public class SearchUser extends AppCompatActivity {
         registerNewUsers = findViewById(R.id.profile_register_new_users);
         search_user_progress_indicator = findViewById(R.id.search_user_progress_indicator);
         search_user_profile_picture = findViewById(R.id.search_user_profile_picture);
+        search_user_support_center = findViewById(R.id.search_user_support_center);
+        search_users_contact_support = findViewById(R.id.search_users_contact_support);
+
+        CapiUserManager.loadUserData(getApplicationContext());
+        if (CapiUserManager.getUserType().equals("SupportRep")) {
+            search_user_support_center.setVisibility(View.VISIBLE);
+            search_users_contact_support.setVisibility(View.GONE);
+            registerNewUsers.setVisibility(View.GONE);
+            registerNewUsers.setImageResource(R.drawable.ic_capitipalism_register_new_user);
+        } else if (CapiUserManager.getUserType().equals("GroupDefaultUser")) {
+            search_users_contact_support.setVisibility(View.VISIBLE);
+            search_user_support_center.setVisibility(View.GONE);
+            registerNewUsers.setVisibility(View.VISIBLE);
+            registerNewUsers.setImageResource(R.drawable.ic_capitipalism_register_new_user);
+        } else if (CapiUserManager.getUserType().equals("GroupAdmin")) {
+            search_users_contact_support.setVisibility(View.GONE);
+            search_user_support_center.setVisibility(View.GONE);
+            registerNewUsers.setVisibility(View.VISIBLE);
+            registerNewUsers.setImageResource(R.drawable.ic_capitipalism_register_new_user);
+        } else if (CapiUserManager.getUserType().equals("Super Admin")) {
+            search_users_contact_support.setVisibility(View.GONE);
+            search_user_support_center.setVisibility(View.GONE);
+            registerNewUsers.setVisibility(View.VISIBLE);
+            registerNewUsers.setImageResource(R.drawable.ic_capitipalism_dashboard_1);
+        }
 
         foundUsersRecyclerView.setHasFixedSize(true);
         foundUsersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -129,66 +164,119 @@ public class SearchUser extends AppCompatActivity {
         System.out.println("Load User Data Called");
         CapiUserManager.loadUserData(getApplicationContext());
         if (CapiUserManager.userDataExists()) {
-            Toast.makeText(this, "User Data Exists", Toast.LENGTH_SHORT).show();
-            Toast.makeText(this, "User ID: " + CapiUserManager.getCurrentUserID(), Toast.LENGTH_SHORT).show();
+            if (CapiUserManager.getUserType().equals("Super Admin")) {
+                System.out.println("Profile Handler For Super Admin");
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference reference = database.getReference("SuperAdmins").child(CapiUserManager.getCurrentUserID());
+                reference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        final String userID = dataSnapshot.getKey();
+                        final String layoutImage = Objects.requireNonNull(dataSnapshot.child("image").getValue()).toString();
+                        if (!layoutImage.equals("default")) {
+                            Picasso.get()
+                                    .load(layoutImage)
+                                    .resize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, getResources().getDisplayMetrics()))
+                                    .centerCrop()
+                                    .networkPolicy(NetworkPolicy.OFFLINE)
+                                    .placeholder(R.drawable.hyphen_user_filled)
+                                    .error(R.drawable.hyphen_user_filled)
+                                    .into(search_user_profile_picture, new Callback() {
+                                        @Override
+                                        public void onSuccess() {
 
-            String groupID = GroupManager.getGroupID();
-            String ownerID = GroupManager.getOwnerID();
+                                        }
 
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference reference = database.getReference().child("GroupUsers").child(ownerID).child(groupID).child(CapiUserManager.getCurrentUserID());
-            reference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    final String userID = dataSnapshot.getKey();
-                    final String layoutImage = Objects.requireNonNull(dataSnapshot.child("image").getValue()).toString();
-                    if (!layoutImage.equals("default")) {
-                        Picasso.with(getApplicationContext())
-                                .load(layoutImage)
-                                .resize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, getResources().getDisplayMetrics()))
-                                .centerCrop()
-                                .networkPolicy(NetworkPolicy.OFFLINE)
-                                .placeholder(R.drawable.hyphen_user_filled)
-                                .error(R.drawable.hyphen_user_filled)
-                                .into(search_user_profile_picture, new Callback() {
-                                    @Override
-                                    public void onSuccess() {
+                                        @Override
+                                        public void onError(Exception e) {
+                                            Picasso.get()
+                                                    .load(layoutImage)
+                                                    .resize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, getResources().getDisplayMetrics()))
+                                                    .centerCrop()
+                                                    .placeholder(R.drawable.hyphen_user_filled)
+                                                    .error(R.drawable.hyphen_user_filled)
+                                                    .into(search_user_profile_picture);
+                                        }
+                                    });
 
-                                    }
-
-                                    @Override
-                                    public void onError() {
-                                        Picasso.with(getApplicationContext())
-                                                .load(layoutImage)
-                                                .resize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, getResources().getDisplayMetrics()))
-                                                .centerCrop()
-                                                .placeholder(R.drawable.hyphen_user_filled)
-                                                .error(R.drawable.hyphen_user_filled)
-                                                .into(search_user_profile_picture);
-                                    }
-                                });
-
-                               search_user_profile_picture.setOnClickListener(view -> {
+                            search_user_profile_picture.setOnClickListener(view -> {
                                 Intent intent = new Intent(SearchUser.this, Profile.class);
                                 intent.putExtra("userID", userID);
                                 startActivity(intent);
                             });
+                        } else {
+                            search_user_profile_picture.setOnClickListener(view -> {
+                                Intent intent = new Intent(SearchUser.this, Profile.class);
+                                intent.putExtra("userID", userID);
+                                startActivity(intent);
+                            });
+                        }
                     }
 
-                    Toast.makeText(SearchUser.this, "Creating Event Handler For Your Profile", Toast.LENGTH_SHORT).show();
-                    search_user_profile_picture.setOnClickListener(view -> {
-                        Toast.makeText(SearchUser.this, "Showing Your Profile", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(SearchUser.this, Profile.class);
-                        intent.putExtra("userID", userID);
-                        startActivity(intent);
-                    });
-                }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+            } else {
+                String groupID = GroupManager.getGroupID();
+                String ownerID = GroupManager.getOwnerID();
 
-                }
-            });
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference reference = database.getReference().child("GroupUsers").child(ownerID).child(groupID).child(CapiUserManager.getCurrentUserID());
+                reference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        final String userID = dataSnapshot.getKey();
+                        final String layoutImage = Objects.requireNonNull(dataSnapshot.child("image").getValue()).toString();
+                        if (!layoutImage.equals("default")) {
+                            Picasso.get()
+                                    .load(layoutImage)
+                                    .resize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, getResources().getDisplayMetrics()))
+                                    .centerCrop()
+                                    .networkPolicy(NetworkPolicy.OFFLINE)
+                                    .placeholder(R.drawable.hyphen_user_filled)
+                                    .error(R.drawable.hyphen_user_filled)
+                                    .into(search_user_profile_picture, new Callback() {
+                                        @Override
+                                        public void onSuccess() {
+
+                                        }
+
+                                        @Override
+                                        public void onError(Exception e) {
+                                            Picasso.get()
+                                                    .load(layoutImage)
+                                                    .resize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, getResources().getDisplayMetrics()))
+                                                    .centerCrop()
+                                                    .placeholder(R.drawable.hyphen_user_filled)
+                                                    .error(R.drawable.hyphen_user_filled)
+                                                    .into(search_user_profile_picture);
+                                        }
+                                    });
+
+                            search_user_profile_picture.setOnClickListener(view -> {
+                                Intent intent = new Intent(SearchUser.this, Profile.class);
+                                intent.putExtra("userID", userID);
+                                startActivity(intent);
+                            });
+                        }
+
+                        Toast.makeText(SearchUser.this, "Creating Event Handler For Your Profile", Toast.LENGTH_SHORT).show();
+                        search_user_profile_picture.setOnClickListener(view -> {
+                            Toast.makeText(SearchUser.this, "Showing Your Profile", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(SearchUser.this, Profile.class);
+                            intent.putExtra("userID", userID);
+                            startActivity(intent);
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
         } else {
             search_user_profile_picture.setOnClickListener(view -> {
                 Toast.makeText(getApplicationContext(), "No user found! Please register to see your profile.", Toast.LENGTH_LONG).show();
@@ -196,6 +284,81 @@ public class SearchUser extends AppCompatActivity {
         }
         System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
     }
+    // endregion
+
+    // region Load User Data Corp Group Default
+//    private void loadUserData() {
+//        System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+//        System.out.println("Load User Data Called");
+//        CapiUserManager.loadUserData(getApplicationContext());
+//        if (CapiUserManager.userDataExists()) {
+//            Toast.makeText(this, "User Data Exists", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "User ID: " + CapiUserManager.getCurrentUserID(), Toast.LENGTH_SHORT).show();
+//
+//            String groupID = GroupManager.getGroupID();
+//            String ownerID = GroupManager.getOwnerID();
+//
+//            FirebaseDatabase database = FirebaseDatabase.getInstance();
+//            DatabaseReference reference = database.getReference().child("GroupUsers").child(ownerID).child(groupID).child(CapiUserManager.getCurrentUserID());
+//            reference.addValueEventListener(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(DataSnapshot dataSnapshot) {
+//                    final String userID = dataSnapshot.getKey();
+//                        final String layoutImage = Objects.requireNonNull(dataSnapshot.child("image").getValue()).toString();
+//                        if (!layoutImage.equals("default")) {
+//                            Picasso.get()
+//                                    .load(layoutImage)
+//                                    .resize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, getResources().getDisplayMetrics()))
+//                                    .centerCrop()
+//                                    .networkPolicy(NetworkPolicy.OFFLINE)
+//                                    .placeholder(R.drawable.hyphen_user_filled)
+//                                    .error(R.drawable.hyphen_user_filled)
+//                                    .into(search_user_profile_picture, new Callback() {
+//                                        @Override
+//                                        public void onSuccess() {
+//
+//                                        }
+//
+//                                        @Override
+//                                        public void onError(Exception e) {
+//                                            Picasso.get()
+//                                                    .load(layoutImage)
+//                                                    .resize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, getResources().getDisplayMetrics()))
+//                                                    .centerCrop()
+//                                                    .placeholder(R.drawable.hyphen_user_filled)
+//                                                    .error(R.drawable.hyphen_user_filled)
+//                                                    .into(search_user_profile_picture);
+//                                        }
+//                                    });
+//
+//                            search_user_profile_picture.setOnClickListener(view -> {
+//                                Intent intent = new Intent(SearchUser.this, Profile.class);
+//                                intent.putExtra("userID", userID);
+//                                startActivity(intent);
+//                            });
+//                        }
+//
+//                        Toast.makeText(SearchUser.this, "Creating Event Handler For Your Profile", Toast.LENGTH_SHORT).show();
+//                        search_user_profile_picture.setOnClickListener(view -> {
+//                            Toast.makeText(SearchUser.this, "Showing Your Profile", Toast.LENGTH_SHORT).show();
+//                            Intent intent = new Intent(SearchUser.this, Profile.class);
+//                            intent.putExtra("userID", userID);
+//                            startActivity(intent);
+//                        });
+//                }
+//
+//                @Override
+//                public void onCancelled(DatabaseError databaseError) {
+//
+//                }
+//            });
+//        } else {
+//            search_user_profile_picture.setOnClickListener(view -> {
+//                Toast.makeText(getApplicationContext(), "No user found! Please register to see your profile.", Toast.LENGTH_LONG).show();
+//            });
+//        }
+//        System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+//    }
     // endregion
 
     // region Init Search
@@ -277,7 +440,12 @@ public class SearchUser extends AppCompatActivity {
         // });
         // endregion
 
-        registerNewUsers.setOnClickListener(view -> startActivity(new Intent(SearchUser.this, Register.class)));
+        if (CapiUserManager.getUserType().equals("Super Admin")) {
+            registerNewUsers.setOnClickListener(view -> startActivity(new Intent(SearchUser.this, Home.class)));
+
+        } else {
+            registerNewUsers.setOnClickListener(view -> startActivity(new Intent(SearchUser.this, Register.class)));
+        }
 
         searchByNFCTag.setOnClickListener(view -> {
             if (!isReadingNFC) {
@@ -290,6 +458,21 @@ public class SearchUser extends AppCompatActivity {
                     mNfcAdapter.disableForegroundDispatch(this);
                 }
             }
+        });
+
+        search_user_support_center.setOnClickListener(view -> {
+            new Handler().postDelayed(() -> CircularAnim.fullActivity(SearchUser.this, search_user_support_center)
+                    .colorOrImageRes(R.color.capitipalism_primary)
+                    .go(() -> {
+                        startActivity(new Intent(SearchUser.this, HomeActivity.class));
+                        finish();
+                    }), 0);
+        });
+
+        search_users_contact_support.setOnClickListener(view1 -> {
+            Intent chatIntent = new Intent(getApplicationContext(), ChatActivity.class);
+            chatIntent.putExtra("userID", "SupportRep");
+            startActivity(chatIntent);
         });
     }
     // endregion
@@ -345,7 +528,7 @@ public class SearchUser extends AppCompatActivity {
         System.out.println("*************************************");
         System.out.println("*************************************");
         System.out.println("*************************************");
-        System.out.println("uID: "+ "Listing all users");
+        System.out.println("uID: " + "Listing all users");
         System.out.println("*************************************");
         System.out.println("*************************************");
         System.out.println("*************************************");
@@ -366,7 +549,7 @@ public class SearchUser extends AppCompatActivity {
                     System.out.println("*************************************");
                     System.out.println("*************************************");
                     System.out.println("*************************************");
-                    System.out.println("uID: "+uID);
+                    System.out.println("uID: " + uID);
                     System.out.println("*************************************");
                     System.out.println("*************************************");
                     System.out.println("*************************************");
@@ -404,7 +587,7 @@ public class SearchUser extends AppCompatActivity {
                 foundUsersCount.setVisibility(View.VISIBLE);
                 search_user_progress_indicator.setVisibility(View.GONE);
 
-                searchAdapter = new UsersSearchAdapter(SearchUser.this, userIDList, profileImageList,newUserList, userNameList,userBalanceList,userValidationList,userSearchTagList, userStatusList);
+                searchAdapter = new UsersSearchAdapter(SearchUser.this, userIDList, profileImageList, newUserList, userNameList, userBalanceList, userValidationList, userSearchTagList, userStatusList);
                 foundUsersRecyclerView.setAdapter(searchAdapter);
             }
 
@@ -478,7 +661,7 @@ public class SearchUser extends AppCompatActivity {
                 }
 
                 foundUsersCount.setText("FOUND " + counter + " USERS");
-                searchAdapter = new UsersSearchAdapter(SearchUser.this, userIDList, profileImageList, newUserList,userNameList,userBalanceList,userValidationList,userSearchTagList,userStatusList);
+                searchAdapter = new UsersSearchAdapter(SearchUser.this, userIDList, profileImageList, newUserList, userNameList, userBalanceList, userValidationList, userSearchTagList, userStatusList);
                 foundUsersRecyclerView.setAdapter(searchAdapter);
             }
 
@@ -550,7 +733,7 @@ public class SearchUser extends AppCompatActivity {
 
                 }
 
-                searchAdapter = new UsersSearchAdapter(SearchUser.this, userIDList, profileImageList,newUserList, userNameList,userBalanceList,userValidationList,userSearchTagList,userStatusList);
+                searchAdapter = new UsersSearchAdapter(SearchUser.this, userIDList, profileImageList, newUserList, userNameList, userBalanceList, userValidationList, userSearchTagList, userStatusList);
                 foundUsersRecyclerView.setAdapter(searchAdapter);
             }
 

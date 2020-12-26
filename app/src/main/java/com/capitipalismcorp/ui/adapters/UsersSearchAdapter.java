@@ -215,7 +215,7 @@ public class UsersSearchAdapter extends RecyclerView.Adapter<UsersSearchAdapter.
         // }
 
         if (!image.equals("default")) {
-            Picasso.with(context)
+            Picasso.get()
                     .load(image)
                     .resize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, context.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, context.getResources().getDisplayMetrics()))
                     .centerCrop()
@@ -228,8 +228,8 @@ public class UsersSearchAdapter extends RecyclerView.Adapter<UsersSearchAdapter.
                         }
 
                         @Override
-                        public void onError() {
-                            Picasso.with(context)
+                        public void onError(Exception e) {
+                            Picasso.get()
                                     .load(image)
                                     .resize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, context.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, context.getResources().getDisplayMetrics()))
                                     .centerCrop()
@@ -278,7 +278,7 @@ public class UsersSearchAdapter extends RecyclerView.Adapter<UsersSearchAdapter.
             // endregion
 
             // region User Holder Middle Items
-            holder.userBalance.setText(userBalanceList.get(position) + "");
+            holder.userBalance.setText("$" + userBalanceList.get(position).toString());
 
             // region Set Click Event Handler for User List Item
             holder.userHolderMainContainer.setOnClickListener(view -> {
@@ -339,9 +339,19 @@ public class UsersSearchAdapter extends RecyclerView.Adapter<UsersSearchAdapter.
 
             // region User Holder Middle Items
             holder.userBalance.setVisibility(View.GONE);
+
+            // region Set Click Event Handler for User List Item
+            holder.userHolderMainContainer.setOnClickListener(view -> {
+                // Toast.makeText(context, "Clicked " + profileIDList.get(position), Toast.LENGTH_LONG).show();
+                Intent userProfileIntent = new Intent(context.getApplicationContext(), Profile.class);
+                userProfileIntent.putExtra("userID", profileIDList.get(position));
+                context.startActivity(userProfileIntent);
+            });
+            // endregion
             // endregion
 
             // region User Holder Right Items
+            holder.user_holder_swipe_right_text_editor_container.setVisibility(View.GONE);
             holder.user_holder_write_nfc_tag.setVisibility(View.GONE);
             holder.user_holder_delete_user.setVisibility(View.GONE);
             holder.user_holder_logout_user.setVisibility(View.GONE);
@@ -353,12 +363,22 @@ public class UsersSearchAdapter extends RecyclerView.Adapter<UsersSearchAdapter.
             // endregion
 
             // region User Holder Middle Items
+            holder.userBalance.setText("$" + userBalanceList.get(position).toString());
 
+            // region Set Click Event Handler for User List Item
+            holder.userHolderMainContainer.setOnClickListener(view -> {
+                // Toast.makeText(context, "Clicked " + profileIDList.get(position), Toast.LENGTH_LONG).show();
+                Intent userProfileIntent = new Intent(context.getApplicationContext(), Profile.class);
+                userProfileIntent.putExtra("userID", profileIDList.get(position));
+                context.startActivity(userProfileIntent);
+            });
+            // endregion
             // endregion
 
             // region User Holder Right Items
 //            holder.user_holder_write_nfc_tag.setVisibility(View.GONE);
             holder.user_holder_swipe_right_text_editor_container.setVisibility(View.GONE);
+            holder.user_holder_write_nfc_tag.setVisibility(View.GONE);
             holder.user_holder_delete_user.setVisibility(View.GONE);
             holder.user_holder_logout_user.setVisibility(View.GONE);
             // endregion
@@ -405,6 +425,15 @@ public class UsersSearchAdapter extends RecyclerView.Adapter<UsersSearchAdapter.
 
             // region User Holder Middle Items
             holder.userBalance.setText(userBalanceList.get(position) + "");
+
+            // region Set Click Event Handler for User List Item
+            holder.userHolderMainContainer.setOnClickListener(view -> {
+                // Toast.makeText(context, "Clicked " + profileIDList.get(position), Toast.LENGTH_LONG).show();
+                Intent userProfileIntent = new Intent(context.getApplicationContext(), Profile.class);
+                userProfileIntent.putExtra("userID", profileIDList.get(position));
+                context.startActivity(userProfileIntent);
+            });
+            // endregion
             // endregion
 
             // region User Holder Right Items
