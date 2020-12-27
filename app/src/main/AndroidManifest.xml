@@ -24,13 +24,15 @@
             android:name=".ui.settings.AdminSettings"
             android:label="@string/title_activity_admin_settings" />
         <activity android:name=".ui.login.LoginColorConfirmation" />
-        <activity android:name=".ui.login.Login">
+        <activity
+            android:name=".ui.splash.Splash"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.login.Login"/>
         <activity android:name=".ui.profile.Profile" />
         <activity android:name=".ui.support.HomeActivity" />
         <activity
