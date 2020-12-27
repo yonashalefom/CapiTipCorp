@@ -30,11 +30,8 @@
     <string name="sync_header">Features</string>
 
     <!-- Messages Preferences -->
-    <string name="signature_title">Group Name</string>
-    <string name="reply_title">Group Theme Color</string>
 
     <!-- Sync Preferences -->
-    <string name="sync_title">Enable Color Password</string>
 <!--    <string name="attachment_title">Download incoming attachments</string>-->
 <!--    <string name="attachment_summary_on">Automatically download attachments for incoming emails-->
 <!--    </string>-->

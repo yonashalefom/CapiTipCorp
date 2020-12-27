@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.nfc.NfcAdapter;
 import android.nfc.tech.Ndef;
 import android.nfc.tech.NdefFormatable;
@@ -26,6 +27,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.capitipalismcorp.R;
 import com.capitipalismcorp.classes.CapiUserManager;
 import com.capitipalismcorp.classes.GroupManager;
+import com.capitipalismcorp.classes.SettingsManager;
 import com.capitipalismcorp.ui.dashboard.Home;
 import com.capitipalismcorp.ui.helpers.AlertCreator;
 import com.capitipalismcorp.ui.profile.Profile;
@@ -41,6 +43,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Map;
 import java.util.Objects;
 
 import be.appfoundry.nfclibrary.utilities.sync.NfcReadUtilityImpl;
@@ -52,6 +55,8 @@ public class Login extends AppCompatActivity {
     // region Initializations
     @BindView(R.id.login_form_container)
     ConstraintLayout login_form_container;
+    @BindView(R.id.login_page_main_background)
+    ConstraintLayout login_page_main_background;
     @BindView(R.id.login_btn_login)
     Button login_btn_login;
     @BindView(R.id.login_txt_id)
@@ -66,6 +71,12 @@ public class Login extends AppCompatActivity {
     SpinKitView login_progress_register;
     @BindView(R.id.login_lbl_title)
     TextView login_lbl_title;
+    @BindView(R.id.login_advert_link_1)
+    TextView login_advert_link_1;
+    @BindView(R.id.login_advert_link_2)
+    TextView login_advert_link_2;
+    @BindView(R.id.login_advert_link_3)
+    TextView login_advert_link_3;
     @BindView(R.id.login_scan_nfc_logo)
     LottieAnimationView login_scan_nfc_logo;
     // endregion
@@ -123,6 +134,19 @@ public class Login extends AppCompatActivity {
 
     // region Init UI
     private void initUI() {
+        Map<String, Object> appSettings = SettingsManager.getAppSettings();
+
+        String mainLoginBackground = String.valueOf(appSettings.get("group_theme"));
+        String mainAppName = String.valueOf(appSettings.get("group_name"));
+        String appLink1 = String.valueOf(appSettings.get("ad_link_1"));
+        String appLink2 = String.valueOf(appSettings.get("ad_link_2"));
+        String appLink3 = String.valueOf(appSettings.get("ad_link_3"));
+
+        login_page_main_background.setBackgroundColor(Color.parseColor(mainLoginBackground));
+        login_lbl_title.setText(mainAppName);
+        login_advert_link_1.setText(appLink1);
+        login_advert_link_2.setText(appLink2);
+        login_advert_link_3.setText(appLink3);
 //        CapiUserManager.saveUserData(getApplicationContext(), "Boss", "GroupAdmin");
         // CapiUserManager.saveUserData(getApplicationContext(), "Boss", "Admin");
         // Intent intent = new Intent(getApplicationContext(), Profile.class);

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import com.capitipalismcorp.R;
 import com.capitipalismcorp.classes.CapiUserManager;
 import com.capitipalismcorp.classes.GroupManager;
+import com.capitipalismcorp.classes.SettingsManager;
 import com.capitipalismcorp.ui.dashboard.Home;
 import com.capitipalismcorp.ui.helpers.AlertCreator;
 import com.capitipalismcorp.ui.profile.Profile;
@@ -25,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -32,6 +35,8 @@ import butterknife.ButterKnife;
 import top.wefor.circularanim.CircularAnim;
 
 public class LoginColorConfirmation extends AppCompatActivity {
+    @BindView(R.id.login_confirmation_page_main_background)
+    ConstraintLayout login_confirmation_page_main_background;
     // region Initializations
     // region Color Inputs
     @BindView(R.id.color_code_input_1)
@@ -90,10 +95,48 @@ public class LoginColorConfirmation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_color_confirmation);
         ButterKnife.bind(this);
+
+        initUI();
         userID = getIntent().getStringExtra("userID");
         userType = getIntent().getStringExtra("userType");
         initColorCodeInput();
     }
+
+    // region Init UI
+    private void initUI() {
+        Map<String, Object> appSettings = SettingsManager.getAppSettings();
+
+        String mainLoginBackground = String.valueOf(appSettings.get("group_theme"));
+//        String mainAppName = String.valueOf(appSettings.get("group_name"));
+//        String appLink1 = String.valueOf(appSettings.get("ad_link_1"));
+//        String appLink2 = String.valueOf(appSettings.get("ad_link_2"));
+//        String appLink3 = String.valueOf(appSettings.get("ad_link_3"));
+
+        login_confirmation_page_main_background.setBackgroundColor(Color.parseColor(mainLoginBackground));
+//        login_lbl_title.setText(mainAppName);
+//        login_advert_link_1.setText(appLink1);
+//        login_advert_link_2.setText(appLink2);
+//        login_advert_link_3.setText(appLink3);
+
+
+//        CapiUserManager.saveUserData(getApplicationContext(), "Boss", "GroupAdmin");
+        // CapiUserManager.saveUserData(getApplicationContext(), "Boss", "Admin");
+        // Intent intent = new Intent(getApplicationContext(), Profile.class);
+        // intent.putExtra("userID","Boss");
+
+        // CapiUserManager.saveUserData(getApplicationContext(), "SuperAdmin", "Super Admin");
+        // Intent intent = new Intent(getApplicationContext(), Profile.class);
+        // intent.putExtra("userID", "SuperAdmin");
+
+        // startActivity(intent);
+
+        // ConstraintSet constraintSet = new ConstraintSet();
+        // constraintSet.clone(login_form_container);
+        // constraintSet.connect(R.id.login_scan_nfc_logo, ConstraintSet.BOTTOM, R.id.login_form_container, ConstraintSet.BOTTOM, 0);
+        // // constraintSet.connect(R.id.imageView,ConstraintSet.TOP,R.id.check_answer1,ConstraintSet.TOP,0);
+        // constraintSet.applyTo(login_form_container);
+    }
+    // endregion
 
     // region Init UI
     private void initColorCodeInput() {

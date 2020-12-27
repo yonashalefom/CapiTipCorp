@@ -1,42 +1,61 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="@string/messages_header">
+    <PreferenceCategory app:title="General Settings">
 
         <EditTextPreference
-            app:key="signature"
-            app:title="@string/signature_title"
+            app:key="group_name"
+            app:title="Group Name"
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
-            app:entries="@array/reply_entries"
-            app:entryValues="@array/reply_values"
-            app:key="reply"
-            app:title="@string/reply_title"
+            app:entries="@array/app_theme_names"
+            app:entryValues="@array/app_theme_values"
+            app:key="group_theme"
+            app:title="Group Theme"
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/sync_header">
+    <PreferenceCategory app:title="Login Link Settings">
+
+        <EditTextPreference
+            app:key="ad_link_1"
+            app:title="Login Link 1"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            app:key="ad_link_2"
+            app:title="Login Link 2"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            app:key="ad_link_3"
+            app:title="Login Link 3"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="App Features">
 
         <SwitchPreferenceCompat
             android:defaultValue="false"
             app:defaultValue="true"
-            app:key="sync"
-            app:title="@string/sync_title" />
+            app:key="color_confirmation_feature"
+            app:title="Color Confirmation Feature" />
 
         <SwitchPreferenceCompat
             android:defaultValue="false"
             app:defaultValue="true"
-            app:key="1s2sFeature"
-            app:title="1s and 2s feature" />
+            app:key="ones_twos_feature"
+            app:title="1s and 2s Feature" />
 
-<!--        <SwitchPreferenceCompat-->
-<!--            app:dependency="sync"-->
-<!--            app:key="attachment"-->
-<!--            app:summaryOff="@string/attachment_summary_off"-->
-<!--            app:summaryOn="@string/attachment_summary_on"-->
-<!--            app:title="@string/attachment_title" />-->
+        <!--        <SwitchPreferenceCompat-->
+        <!--            app:dependency="sync"-->
+        <!--            app:key="attachment"-->
+        <!--            app:summaryOff="@string/attachment_summary_off"-->
+        <!--            app:summaryOn="@string/attachment_summary_on"-->
+        <!--            app:title="@string/attachment_title" />-->
 
     </PreferenceCategory>
 

@@ -1,6 +1,6 @@
 <resources>
     <!-- Reply Preference -->
-    <string-array name="reply_entries">
+    <string-array name="app_theme_names">
         <item>Default</item>
         <item>Amber</item>
         <item>Azure</item>
@@ -9,7 +9,7 @@
         <item>Electric blue</item>
     </string-array>
 
-    <string-array name="reply_values">
+    <string-array name="app_theme_values">
         <item>#00A1CD</item>
         <item>#FFBF00</item>
         <item>#007FFF</item>
