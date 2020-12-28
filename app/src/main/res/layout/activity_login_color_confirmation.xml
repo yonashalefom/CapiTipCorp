@@ -5,7 +5,7 @@
     android:id="@+id/login_confirmation_page_main_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/capitipalism_primary"
+    android:background="?colorPrimary"
     tools:context=".ui.login.LoginColorConfirmation">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -67,7 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Enter your color code in order to login."
-                android:textColor="@color/capitipalism_primary"
+                android:textColor="?colorPrimary"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -83,7 +83,7 @@
             android:layout_gravity="center"
             android:layout_marginBottom="16dp"
             android:visibility="gone"
-            app:SpinKit_Color="@color/capitipalism_primary"
+            app:SpinKit_Color="?colorPrimary"
             app:layout_constraintBottom_toTopOf="@+id/constraintLayout6"
             app:layout_constraintEnd_toEndOf="@+id/constraintLayout6"
             app:layout_constraintStart_toStartOf="@+id/constraintLayout6" />

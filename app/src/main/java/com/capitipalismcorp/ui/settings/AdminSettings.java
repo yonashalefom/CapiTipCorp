@@ -6,11 +6,14 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
 import com.capitipalismcorp.R;
 import com.capitipalismcorp.classes.GroupManager;
+import com.capitipalismcorp.classes.SettingsManager;
+import com.capitipalismcorp.ui.helpers.ThemeManager;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -22,6 +25,7 @@ public class AdminSettings extends AppCompatActivity implements SharedPreference
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setAppTheme();
         setContentView(R.layout.settings_activity);
         if (savedInstanceState == null) {
             getSupportFragmentManager()
@@ -32,9 +36,21 @@ public class AdminSettings extends AppCompatActivity implements SharedPreference
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle("Group Preferences");
+
         }
         setupSharedPreferences();
     }
+
+    // region Set App Theme
+    private void setAppTheme() {
+        Map<String, Object> appSettings = SettingsManager.getAppSettings();
+
+        String group_theme = String.valueOf(appSettings.get("group_theme"));
+
+        ThemeManager.setApplicationThemeActionBar(this, group_theme);
+    }
+    // endregion
 
     public static class SettingsFragment extends PreferenceFragmentCompat {
         @Override

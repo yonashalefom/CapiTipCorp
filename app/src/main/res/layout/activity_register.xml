@@ -5,7 +5,7 @@
     android:id="@+id/register_activity_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/capitipalism_primary"
+    android:background="?colorPrimary"
     tools:context="com.capitipalismcorp.ui.register.Register">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -137,7 +137,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Already have an account?"
-                android:textColor="@color/capitipalism_primary"
+                android:textColor="?colorPrimary"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -150,7 +150,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginLeft="4dp"
                 android:text="Login."
-                android:textColor="@color/capitipalism_accent"
+                android:textColor="?colorAccent"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@+id/register_lbl_have_account"
                 app:layout_constraintStart_toEndOf="@+id/register_lbl_have_account"
@@ -165,7 +165,7 @@
             android:layout_gravity="center"
             android:layout_marginBottom="8dp"
             android:visibility="invisible"
-            app:SpinKit_Color="@color/capitipalism_primary"
+            app:SpinKit_Color="?colorPrimary"
             app:layout_constraintBottom_toTopOf="@+id/register_txt_id"
             app:layout_constraintEnd_toEndOf="@+id/register_txt_id"
             app:layout_constraintStart_toStartOf="@+id/register_txt_id" />

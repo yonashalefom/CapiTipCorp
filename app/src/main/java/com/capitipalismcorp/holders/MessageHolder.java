@@ -138,9 +138,11 @@ public class MessageHolder extends RecyclerView.ViewHolder {
                         messageTyping.setVisibility(View.VISIBLE);
                         messagesTypingContainer.setVisibility(View.VISIBLE);
 
-
                         // region Initilize/Update user image
-                        userDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(userID);
+                        String groupID = GroupManager.getGroupID();
+                        String ownerID = GroupManager.getOwnerID();
+
+                        userDatabase = FirebaseDatabase.getInstance().getReference("GroupUsers").child(ownerID).child(groupID).child(userID);
                         userListener = new ValueEventListener() {
                             @Override
                             public void onDataChange(final DataSnapshot dataSnapshot) {

@@ -11,7 +11,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="240dp"
-        android:background="@color/capitipalism_primary" >
+        android:background="?colorPrimary" >
 
     </LinearLayout>
 
@@ -82,12 +82,12 @@
             android:layout_height="40dp"
             android:layout_marginEnd="4dp"
             android:background="@drawable/circular_background_blue"
-            android:padding="10dp"
+            android:padding="10.5dp"
             android:tint="@color/capitipalism_white"
             app:layout_constraintBottom_toBottomOf="@+id/profile_back_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/profile_back_button"
-            app:srcCompat="@drawable/ic_capitipalism_nfc_tag" />
+            app:srcCompat="@drawable/ic_tag_outline" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -271,7 +271,7 @@
                     android:padding="13dp"
                     android:text="User Info"
                     android:textAllCaps="true"
-                    android:textColor="@color/capitipalism_primary"
+                    android:textColor="?colorPrimary"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -381,7 +381,7 @@
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
                                 android:text="1s Sign ups:"
-                                android:textColor="@color/capitipalism_primary"
+                                android:textColor="?colorPrimary"
                                 android:textStyle="bold"
                                 tools:visibility="visible" />
 
@@ -420,7 +420,7 @@
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
                                 android:text="2s Sign ups:"
-                                android:textColor="@color/capitipalism_primary"
+                                android:textColor="?colorPrimary"
                                 android:textStyle="bold"
                                 tools:visibility="visible" />
 
@@ -1040,9 +1040,9 @@
             app:fab_expandDirection="up"
             app:fab_labelsPosition="left"
             app:fab_menuMargins="16dp"
-            app:fab_moreButtonBackgroundColor="@color/capitipalism_primary"
+            app:fab_moreButtonBackgroundColor="?colorPrimary"
             app:fab_moreButtonPlusIcon="@drawable/ic_edit_white_24dp"
-            app:fab_moreButtonRippleColor="@color/capitipalism_accent"
+            app:fab_moreButtonRippleColor="?colorAccent"
             app:fab_moreButtonSize="normal">
 
         </jahirfiquitiva.libs.fabsmenu.FABsMenu>

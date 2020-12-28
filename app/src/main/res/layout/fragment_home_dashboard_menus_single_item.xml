@@ -34,7 +34,7 @@
             android:paddingLeft="10dp"
             android:paddingTop="10dp"
             android:paddingRight="10dp"
-            android:textColor="@color/colorPrimary"
+            android:textColor="?colorPrimary"
             android:textSize="15dp" />
 
         <TextView

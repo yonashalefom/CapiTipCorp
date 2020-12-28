@@ -3,8 +3,6 @@ package com.capitipalismcorp.ui.supportchat;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
@@ -22,9 +20,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.ActivityCompat;
 import androidx.core.app.NavUtils;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,9 +28,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.capitipalismcorp.R;
 import com.capitipalismcorp.classes.CapiUserManager;
 import com.capitipalismcorp.classes.GroupManager;
+import com.capitipalismcorp.classes.SettingsManager;
 import com.capitipalismcorp.models.Message;
 import com.capitipalismcorp.ui.adapters.MessageAdapter;
-import com.google.firebase.auth.FirebaseAuth;
+import com.capitipalismcorp.ui.helpers.ThemeManager;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -50,9 +47,6 @@ import com.gun0912.tedpermission.TedPermission;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
-import com.zhihu.matisse.Matisse;
-import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.engine.impl.GlideEngine;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -102,11 +96,22 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setAppTheme();
         setContentView(R.layout.activity_chat);
 
         initUI();
         initVariables();
         initEventHandlers();
+    }
+    // endregion
+
+    // region Set App Theme
+    private void setAppTheme() {
+        Map<String, Object> appSettings = SettingsManager.getAppSettings();
+
+        String group_theme = String.valueOf(appSettings.get("group_theme"));
+
+        ThemeManager.setApplicationThemeActionBar(this, group_theme);
     }
     // endregion
 

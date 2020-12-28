@@ -17,6 +17,7 @@ import com.capitipalismcorp.classes.GroupManager;
 import com.capitipalismcorp.classes.SettingsManager;
 import com.capitipalismcorp.ui.dashboard.Home;
 import com.capitipalismcorp.ui.helpers.AlertCreator;
+import com.capitipalismcorp.ui.helpers.ThemeManager;
 import com.capitipalismcorp.ui.profile.Profile;
 import com.capitipalismcorp.ui.search.SearchUser;
 import com.github.ybq.android.spinkit.SpinKitView;
@@ -93,6 +94,7 @@ public class LoginColorConfirmation extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setAppTheme();
         setContentView(R.layout.activity_login_color_confirmation);
         ButterKnife.bind(this);
 
@@ -102,17 +104,27 @@ public class LoginColorConfirmation extends AppCompatActivity {
         initColorCodeInput();
     }
 
-    // region Init UI
-    private void initUI() {
+    // region Set App Theme
+    private void setAppTheme() {
         Map<String, Object> appSettings = SettingsManager.getAppSettings();
 
-        String mainLoginBackground = String.valueOf(appSettings.get("group_theme"));
+        String group_theme = String.valueOf(appSettings.get("group_theme"));
+
+        ThemeManager.setApplicationTheme(this, group_theme);
+    }
+    // endregion
+
+    // region Init UI
+    private void initUI() {
+//        Map<String, Object> appSettings = SettingsManager.getAppSettings();
+
+//        String mainLoginBackground = String.valueOf(appSettings.get("group_theme"));
 //        String mainAppName = String.valueOf(appSettings.get("group_name"));
 //        String appLink1 = String.valueOf(appSettings.get("ad_link_1"));
 //        String appLink2 = String.valueOf(appSettings.get("ad_link_2"));
 //        String appLink3 = String.valueOf(appSettings.get("ad_link_3"));
 
-        login_confirmation_page_main_background.setBackgroundColor(Color.parseColor(mainLoginBackground));
+//        login_confirmation_page_main_background.setBackgroundColor(Color.parseColor(mainLoginBackground));
 //        login_lbl_title.setText(mainAppName);
 //        login_advert_link_1.setText(appLink1);
 //        login_advert_link_2.setText(appLink2);
@@ -199,7 +211,7 @@ public class LoginColorConfirmation extends AppCompatActivity {
         if (finalColorCode.length() == 5) {
             login_progress_color_confirmation_page.setVisibility(View.VISIBLE);
             login_btn_login.setClickable(false);
-            login_btn_login.setBackground(getResources().getDrawable(R.drawable.hyphen_button_inactive));
+//            login_btn_login.setBackground(getResources().getDrawable(R.drawable.hyphen_button_inactive));
 
             DatabaseReference databaseReference;
             databaseReference = FirebaseDatabase.getInstance().getReference("GroupUsers");
@@ -269,12 +281,12 @@ public class LoginColorConfirmation extends AppCompatActivity {
                     } else if (Objects.requireNonNull(userColorPassword).compareToIgnoreCase("Default") == 0) {
                         login_progress_color_confirmation_page.setVisibility(View.GONE);
                         login_btn_login.setClickable(true);
-                        login_btn_login.setBackground(getResources().getDrawable(R.drawable.hyphen_button_default));
+                        // login_btn_login.setBackground(getResources().getDrawable(R.drawable.hyphen_button_default));
                         AlertCreator.showErrorAlert(LoginColorConfirmation.this, "Color Password Not Set!", "Your don't have a color password yet. Contact your admin to set your color code.");
                     } else {
                         login_progress_color_confirmation_page.setVisibility(View.GONE);
                         login_btn_login.setClickable(true);
-                        login_btn_login.setBackground(getResources().getDrawable(R.drawable.hyphen_button_default));
+                        // login_btn_login.setBackground(getResources().getDrawable(R.drawable.hyphen_button_default));
                         AlertCreator.showErrorAlert(LoginColorConfirmation.this, "Invalid Credentials!", "Your credentials are not correct. Make sure you are entering a valid color code.");
                     }
                 }
@@ -283,7 +295,7 @@ public class LoginColorConfirmation extends AppCompatActivity {
                 public void onCancelled(DatabaseError databaseError) {
                     login_progress_color_confirmation_page.setVisibility(View.GONE);
                     login_btn_login.setClickable(true);
-                    login_btn_login.setBackground(getResources().getDrawable(R.drawable.hyphen_button_default));
+                    // login_btn_login.setBackground(getResources().getDrawable(R.drawable.hyphen_button_default));
                     System.out.println("Database Error: Something is wrong!");
                 }
             });
@@ -333,15 +345,15 @@ public class LoginColorConfirmation extends AppCompatActivity {
         if (filledPassword == 0) {
             passwordStatus = 0;
             login_btn_login.setClickable(true);
-            login_btn_login.setBackground(getResources().getDrawable(R.drawable.hyphen_button_default));
+            // login_btn_login.setBackground(getResources().getDrawable(R.drawable.hyphen_button_default));
         } else if (filledPassword > 0 && filledPassword < 5) {
             passwordStatus = -1;
             login_btn_login.setClickable(false);
-            login_btn_login.setBackground(getResources().getDrawable(R.drawable.hyphen_button_inactive));
+//            login_btn_login.setBackground(getResources().getDrawable(R.drawable.hyphen_button_inactive));
         } else if (filledPassword == 5) {
             passwordStatus = 1;
             login_btn_login.setClickable(true);
-            login_btn_login.setBackground(getResources().getDrawable(R.drawable.hyphen_button_default));
+            // login_btn_login.setBackground(getResources().getDrawable(R.drawable.hyphen_button_default));
         }
 
         System.out.println("*************************************");

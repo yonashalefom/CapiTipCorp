@@ -6,7 +6,7 @@
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:background="@color/capitipalism_primary"
+    android:background="?colorPrimary"
     android:orientation="vertical"
     android:paddingTop="5dp"
     android:paddingBottom="5dp">

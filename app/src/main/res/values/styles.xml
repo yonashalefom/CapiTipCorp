@@ -31,5 +31,289 @@
     </style>
     <!-- endregion -->
 
+    <!-- Application Themes -->
+    <style name="Default" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/default_primary</item>
+        <item name="colorPrimaryDark">@color/default_primary_dark</item>
+        <item name="colorAccent">@color/default_accent</item>
+    </style>
+
+    <style name="Amber" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/amber_primary</item>
+        <item name="colorPrimaryDark">@color/amber_primary_dark</item>
+        <item name="colorAccent">@color/amber_accent</item>
+    </style>
+
+    <style name="Pink" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/pink_primary</item>
+        <item name="colorPrimaryDark">@color/pink_primary_dark</item>
+        <item name="colorAccent">@color/pink_accent</item>
+    </style>
+
+    <style name="BrickRed" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/brick_red_primary</item>
+        <item name="colorPrimaryDark">@color/brick_red_primary_dark</item>
+        <item name="colorAccent">@color/brick_red_accent</item>
+    </style>
+
+    <style name="Coffee" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/coffee_primary</item>
+        <item name="colorPrimaryDark">@color/coffee_primary_dark</item>
+        <item name="colorAccent">@color/coffee_accent</item>
+    </style>
+
+    <style name="LightRed" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/light_red_primary</item>
+        <item name="colorPrimaryDark">@color/light_red_primary_dark</item>
+        <item name="colorAccent">@color/light_red_accent</item>
+    </style>
+
+    <style name="Jade" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/jade_primary</item>
+        <item name="colorPrimaryDark">@color/jade_primary_dark</item>
+        <item name="colorAccent">@color/jade_accent</item>
+    </style>
+
+    <style name="Cyan" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/cyan_primary</item>
+        <item name="colorPrimaryDark">@color/cyan_primary_dark</item>
+        <item name="colorAccent">@color/cyan_accent</item>
+    </style>
+
+    <style name="Mustard" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/mustard_primary</item>
+        <item name="colorPrimaryDark">@color/mustard_primary_dark</item>
+        <item name="colorAccent">@color/mustard_accent</item>
+    </style>
+
+    <style name="Navy" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/navy_primary</item>
+        <item name="colorPrimaryDark">@color/navy_primary_dark</item>
+        <item name="colorAccent">@color/navy_accent</item>
+    </style>
+
+    <style name="RedOrange" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/red_orange_primary</item>
+        <item name="colorPrimaryDark">@color/red_orange_primary_dark</item>
+        <item name="colorAccent">@color/red_orange_accent</item>
+    </style>
+
+    <style name="Turquoise" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/turquoise_primary</item>
+        <item name="colorPrimaryDark">@color/turquoise_primary_dark</item>
+        <item name="colorAccent">@color/turquoise_accent</item>
+    </style>
+
+    <style name="Ochre" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/ochre_primary</item>
+        <item name="colorPrimaryDark">@color/ochre_primary_dark</item>
+        <item name="colorAccent">@color/ochre_accent</item>
+    </style>
+
+    <style name="Burnt" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/burnt_primary</item>
+        <item name="colorPrimaryDark">@color/burnt_primary_dark</item>
+        <item name="colorAccent">@color/burnt_accent</item>
+    </style>
+
+    <style name="Sapphire" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/sapphire_primary</item>
+        <item name="colorPrimaryDark">@color/sapphire_primary_dark</item>
+        <item name="colorAccent">@color/sapphire_accent</item>
+    </style>
+
+    <style name="Marron" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/marron_primary</item>
+        <item name="colorPrimaryDark">@color/marron_primary_dark</item>
+        <item name="colorAccent">@color/marron_accent</item>
+    </style>
+
+    <style name="Teal" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/teal_primary</item>
+        <item name="colorPrimaryDark">@color/teal_primary_dark</item>
+        <item name="colorAccent">@color/teal_accent</item>
+    </style>
+
+    <style name="BlackBrown" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/black_brown_primary</item>
+        <item name="colorPrimaryDark">@color/black_brown_primary_dark</item>
+        <item name="colorAccent">@color/black_brown_accent</item>
+    </style>
+
+    <style name="Sepia" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/sepia_primary</item>
+        <item name="colorPrimaryDark">@color/sepia_primary_dark</item>
+        <item name="colorAccent">@color/sepia_accent</item>
+    </style>
+
+    <style name="Forest" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/forest_green_primary</item>
+        <item name="colorPrimaryDark">@color/forest_green_primary_dark</item>
+        <item name="colorAccent">@color/forest_green_accent</item>
+    </style>
+
+    <style name="Violet" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/violet_primary</item>
+        <item name="colorPrimaryDark">@color/violet_primary_dark</item>
+        <item name="colorAccent">@color/violet_accent</item>
+    </style>
+
+    <style name="Scarlet" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/scarlet_primary</item>
+        <item name="colorPrimaryDark">@color/scarlet_primary_dark</item>
+        <item name="colorAccent">@color/scarlet_accent</item>
+    </style>
+
+    <style name="Olive" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/Olive_primary</item>
+        <item name="colorPrimaryDark">@color/Olive_primary_dark</item>
+        <item name="colorAccent">@color/Olive_accent</item>
+    </style>
+
+
+    <!-- endregion -->
+    
+    <!-- Application Themes -->
+    <style name="DefaultActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/default_primary</item>
+        <item name="colorPrimaryDark">@color/default_primary_dark</item>
+        <item name="colorAccent">@color/default_accent</item>
+    </style>
+
+    <style name="AmberActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/amber_primary</item>
+        <item name="colorPrimaryDark">@color/amber_primary_dark</item>
+        <item name="colorAccent">@color/amber_accent</item>
+    </style>
+
+    <style name="PinkActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/pink_primary</item>
+        <item name="colorPrimaryDark">@color/pink_primary_dark</item>
+        <item name="colorAccent">@color/pink_accent</item>
+    </style>
+
+    <style name="BrickRedActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/brick_red_primary</item>
+        <item name="colorPrimaryDark">@color/brick_red_primary_dark</item>
+        <item name="colorAccent">@color/brick_red_accent</item>
+    </style>
+
+    <style name="CoffeeActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/coffee_primary</item>
+        <item name="colorPrimaryDark">@color/coffee_primary_dark</item>
+        <item name="colorAccent">@color/coffee_accent</item>
+    </style>
+
+    <style name="LightRedActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/light_red_primary</item>
+        <item name="colorPrimaryDark">@color/light_red_primary_dark</item>
+        <item name="colorAccent">@color/light_red_accent</item>
+    </style>
+
+    <style name="JadeActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/jade_primary</item>
+        <item name="colorPrimaryDark">@color/jade_primary_dark</item>
+        <item name="colorAccent">@color/jade_accent</item>
+    </style>
+
+    <style name="CyanActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/cyan_primary</item>
+        <item name="colorPrimaryDark">@color/cyan_primary_dark</item>
+        <item name="colorAccent">@color/cyan_accent</item>
+    </style>
+
+    <style name="MustardActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/mustard_primary</item>
+        <item name="colorPrimaryDark">@color/mustard_primary_dark</item>
+        <item name="colorAccent">@color/mustard_accent</item>
+    </style>
+
+    <style name="NavyActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/navy_primary</item>
+        <item name="colorPrimaryDark">@color/navy_primary_dark</item>
+        <item name="colorAccent">@color/navy_accent</item>
+    </style>
+
+    <style name="RedOrangeActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/red_orange_primary</item>
+        <item name="colorPrimaryDark">@color/red_orange_primary_dark</item>
+        <item name="colorAccent">@color/red_orange_accent</item>
+    </style>
+
+    <style name="TurquoiseActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/turquoise_primary</item>
+        <item name="colorPrimaryDark">@color/turquoise_primary_dark</item>
+        <item name="colorAccent">@color/turquoise_accent</item>
+    </style>
+
+    <style name="OchreActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/ochre_primary</item>
+        <item name="colorPrimaryDark">@color/ochre_primary_dark</item>
+        <item name="colorAccent">@color/ochre_accent</item>
+    </style>
+
+    <style name="BurntActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/burnt_primary</item>
+        <item name="colorPrimaryDark">@color/burnt_primary_dark</item>
+        <item name="colorAccent">@color/burnt_accent</item>
+    </style>
+
+    <style name="SapphireActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/sapphire_primary</item>
+        <item name="colorPrimaryDark">@color/sapphire_primary_dark</item>
+        <item name="colorAccent">@color/sapphire_accent</item>
+    </style>
+
+    <style name="MarronActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/marron_primary</item>
+        <item name="colorPrimaryDark">@color/marron_primary_dark</item>
+        <item name="colorAccent">@color/marron_accent</item>
+    </style>
+
+    <style name="TealActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/teal_primary</item>
+        <item name="colorPrimaryDark">@color/teal_primary_dark</item>
+        <item name="colorAccent">@color/teal_accent</item>
+    </style>
+
+    <style name="BlackBrownActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/black_brown_primary</item>
+        <item name="colorPrimaryDark">@color/black_brown_primary_dark</item>
+        <item name="colorAccent">@color/black_brown_accent</item>
+    </style>
+
+    <style name="SepiaActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/sepia_primary</item>
+        <item name="colorPrimaryDark">@color/sepia_primary_dark</item>
+        <item name="colorAccent">@color/sepia_accent</item>
+    </style>
+
+    <style name="ForestActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/forest_green_primary</item>
+        <item name="colorPrimaryDark">@color/forest_green_primary_dark</item>
+        <item name="colorAccent">@color/forest_green_accent</item>
+    </style>
+
+    <style name="VioletActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/violet_primary</item>
+        <item name="colorPrimaryDark">@color/violet_primary_dark</item>
+        <item name="colorAccent">@color/violet_accent</item>
+    </style>
+
+    <style name="ScarletActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/scarlet_primary</item>
+        <item name="colorPrimaryDark">@color/scarlet_primary_dark</item>
+        <item name="colorAccent">@color/scarlet_accent</item>
+    </style>
+
+    <style name="OliveActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/Olive_primary</item>
+        <item name="colorPrimaryDark">@color/Olive_primary_dark</item>
+        <item name="colorAccent">@color/Olive_accent</item>
+    </style>
+
+
+    <!-- endregion -->
+
 
 </resources>

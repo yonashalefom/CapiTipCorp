@@ -290,7 +290,7 @@
                     android:layout_height="32dp"
                     android:layout_gravity="center"
                     android:visibility="invisible"
-                    app:SpinKit_Color="@color/capitipalism_primary"
+                    app:SpinKit_Color="?colorPrimary"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -305,9 +305,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/hyphen_profile_picture_placeholder" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </LinearLayout>

@@ -24,8 +24,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.capitipalismcorp.R;
 import com.capitipalismcorp.classes.CapiUserManager;
+import com.capitipalismcorp.classes.SettingsManager;
 import com.capitipalismcorp.ui.dashboard.fragments.DashboardFragment;
 import com.capitipalismcorp.ui.helpers.AlertCreator;
+import com.capitipalismcorp.ui.helpers.ThemeManager;
 import com.capitipalismcorp.ui.login.Login;
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.github.florent37.materialviewpager.header.HeaderDesign;
@@ -36,6 +38,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -69,12 +72,23 @@ public class Home extends AppCompatActivity {
                 finish();
             }
         }
+        setAppTheme();
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 
 
         initUI(savedInstanceState);
     }
+
+    // region Set App Theme
+    private void setAppTheme() {
+        Map<String, Object> appSettings = SettingsManager.getAppSettings();
+
+        String group_theme = String.valueOf(appSettings.get("group_theme"));
+
+        ThemeManager.setApplicationTheme(this, group_theme);
+    }
+    // endregion
 
     // region Initialize UI
     private void initUI(Bundle savedInstanceState) {

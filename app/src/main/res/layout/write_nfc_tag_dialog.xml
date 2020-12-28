@@ -9,7 +9,7 @@
         android:id="@+id/relativeLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/capitipalism_primary"
+        android:background="?colorPrimary"
         android:orientation="vertical"
         android:paddingBottom="16dp">
 
@@ -60,7 +60,7 @@
             android:background="@drawable/rounded_edit_text_normal"
             android:gravity="center_vertical|center_horizontal"
             android:text="@android:string/cancel"
-            android:textColor="@color/capitipalism_primary"
+            android:textColor="?colorPrimary"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_dialog" />

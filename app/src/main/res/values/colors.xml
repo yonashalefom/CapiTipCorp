@@ -52,6 +52,100 @@
     <!-- endregion -->
 
     <!--region Login Color Pin Confirmation-->
+    <color name="default_primary">#00A1CD</color>
+    <color name="default_primary_dark">#00A1CD</color>
+    <color name="default_accent">#048EBC</color>
+
+    <color name="amber_primary">#FFBF00</color>
+    <color name="amber_primary_dark">#FFBF00</color>
+    <color name="amber_accent">#DFA700</color>
+
+    <color name="pink_primary">#e52165</color>
+    <color name="pink_primary_dark">#e52165</color>
+    <color name="pink_accent">#BD1B53</color>
+
+    <color name="brick_red_primary">#CB4154</color>
+    <color name="brick_red_primary_dark">#CB4154</color>
+    <color name="brick_red_accent">#B3394A</color>
+
+    <color name="coffee_primary">#6F4E37</color>
+    <color name="coffee_primary_dark">#6F4E37</color>
+    <color name="coffee_accent">#5E422F</color>
+
+    <color name="light_red_primary">#d72631</color>
+    <color name="light_red_primary_dark">#d72631</color>
+    <color name="light_red_accent">#BA212A</color>
+
+    <color name="jade_primary">#077b8a</color>
+    <color name="jade_primary_dark">#077b8a</color>
+    <color name="jade_accent">#066370</color>
+
+    <color name="cyan_primary">#12a4d9</color>
+    <color name="cyan_primary_dark">#12a4d9</color>
+    <color name="cyan_accent">#1095C5</color>
+
+    <color name="mustard_primary">#f3ca20</color>
+    <color name="mustard_primary_dark">#f3ca20</color>
+    <color name="mustard_accent">#D6B21D</color>
+
+    <color name="navy_primary">#1e3d59</color>
+    <color name="navy_primary_dark">#1e3d59</color>
+    <color name="navy_accent">#183147</color>
+
+    <color name="red_orange_primary">#ff6e40</color>
+    <color name="red_orange_primary_dark">#ff6e40</color>
+    <color name="red_orange_accent">#E16139</color>
+
+    <color name="turquoise_primary">#1e847f</color>
+    <color name="turquoise_primary_dark">#1e847f</color>
+    <color name="turquoise_accent">#1A716D</color>
+
+    <color name="ochre_primary">#c4a35a</color>
+    <color name="ochre_primary_dark">#c4a35a</color>
+    <color name="ochre_accent">#AC8F4E</color>
+
+    <color name="burnt_primary">#c66b3d</color>
+    <color name="burnt_primary_dark">#c66b3d</color>
+    <color name="burnt_accent">#AE5E36</color>
+
+    <color name="sapphire_primary">#1868ae</color>
+    <color name="sapphire_primary_dark">#1868ae</color>
+    <color name="sapphire_accent">#145893</color>
+
+    <color name="marron_primary">#7a2048</color>
+    <color name="marron_primary_dark">#7a2048</color>
+    <color name="marron_accent">#611A3A</color>
+
+    <color name="teal_primary">#316879</color>
+    <color name="teal_primary_dark">#316879</color>
+    <color name="teal_accent">#254F5C</color>
+
+    <color name="black_brown_primary">#201e20</color>
+    <color name="black_brown_primary_dark">#201e20</color>
+    <color name="black_brown_accent">#2E2C2E</color>
+
+    <color name="sepia_primary">#edca82</color>
+    <color name="sepia_primary_dark">#edca82</color>
+    <color name="sepia_accent">#CCAD6F</color>
+
+    <color name="forest_green_primary">#1b6535</color>
+    <color name="forest_green_primary_dark">#1b6535</color>
+    <color name="forest_green_accent">#16512B</color>
+
+    <color name="violet_primary">#500472</color>
+    <color name="violet_primary_dark">#500472</color>
+    <color name="violet_accent">#3F035A</color>
+
+    <color name="scarlet_primary">#b85042</color>
+    <color name="scarlet_primary_dark">#b85042</color>
+    <color name="scarlet_accent">#9C4337</color>
+
+    <color name="Olive_primary">#829079</color>
+    <color name="Olive_primary_dark">#829079</color>
+    <color name="Olive_accent">#65705E</color>
+    <!--endregion-->
+
+    <!--region Theme Colors-->
     <color name="color_code_default">#b6c0bf</color>
     <color name="color_code_1">#4F81BD</color>
     <color name="color_code_2">#914C18</color>

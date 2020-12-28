@@ -28,8 +28,10 @@ import android.widget.Toast;
 import com.capitipalismcorp.R;
 import com.capitipalismcorp.classes.CapiUserManager;
 import com.capitipalismcorp.classes.GroupManager;
+import com.capitipalismcorp.classes.SettingsManager;
 import com.capitipalismcorp.ui.adapters.UsersSearchAdapter;
 import com.capitipalismcorp.ui.dashboard.Home;
+import com.capitipalismcorp.ui.helpers.ThemeManager;
 import com.capitipalismcorp.ui.login.Login;
 import com.capitipalismcorp.ui.profile.Profile;
 import com.capitipalismcorp.ui.register.Register;
@@ -48,6 +50,7 @@ import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Objects;
 
 import be.appfoundry.nfclibrary.utilities.sync.NfcReadUtilityImpl;
@@ -98,6 +101,7 @@ public class SearchUser extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setAppTheme();
         setContentView(R.layout.activity_search_user);
 
         initSearch();
@@ -108,6 +112,16 @@ public class SearchUser extends AppCompatActivity {
         listAllUsersNew();
         initNFCReader();
     }
+
+    // region Set App Theme
+    private void setAppTheme() {
+        Map<String, Object> appSettings = SettingsManager.getAppSettings();
+
+        String group_theme = String.valueOf(appSettings.get("group_theme"));
+
+        ThemeManager.setApplicationTheme(this, group_theme);
+    }
+    // endregion
 
     // region Init UI
     private void initUI() {

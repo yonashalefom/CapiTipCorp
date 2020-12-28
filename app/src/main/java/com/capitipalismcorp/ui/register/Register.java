@@ -15,7 +15,9 @@ import android.widget.ProgressBar;
 import com.capitipalismcorp.R;
 import com.capitipalismcorp.classes.CapiUserManager;
 import com.capitipalismcorp.classes.GroupManager;
+import com.capitipalismcorp.classes.SettingsManager;
 import com.capitipalismcorp.ui.helpers.AlertCreator;
+import com.capitipalismcorp.ui.helpers.ThemeManager;
 import com.capitipalismcorp.ui.profile.Profile;
 import com.capitipalismcorp.ui.search.SearchUser;
 import com.google.firebase.database.FirebaseDatabase;
@@ -36,6 +38,7 @@ public class Register extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setAppTheme();
         CapiUserManager.loadUserData(getApplicationContext());
 //        if (CapiUserManager.userDataExists()) {
 //            System.out.println("*********FDSLKFJDSKLFJDSKLF: " + CapiUserManager.getUserType());
@@ -50,6 +53,16 @@ public class Register extends AppCompatActivity {
         initEventHandlers();
         loadUserData();
     }
+
+    // region Set App Theme
+    private void setAppTheme() {
+        Map<String, Object> appSettings = SettingsManager.getAppSettings();
+
+        String group_theme = String.valueOf(appSettings.get("group_theme"));
+
+        ThemeManager.setApplicationTheme(this, group_theme);
+    }
+    // endregion
 
     // region Init UI
     private void initUI() {

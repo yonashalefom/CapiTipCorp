@@ -29,8 +29,10 @@ import android.widget.Toast;
 import com.capitipalismcorp.R;
 import com.capitipalismcorp.classes.CapiUserManager;
 import com.capitipalismcorp.classes.GroupManager;
+import com.capitipalismcorp.classes.SettingsManager;
 import com.capitipalismcorp.ui.adapters.UsersSearchAdapter;
 import com.capitipalismcorp.ui.helpers.AlertCreator;
+import com.capitipalismcorp.ui.helpers.ThemeManager;
 import com.capitipalismcorp.ui.imageviewer.FullScreenActivity;
 import com.capitipalismcorp.ui.login.Login;
 import com.capitipalismcorp.ui.search.SearchUser;
@@ -124,6 +126,7 @@ public class Profile extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setAppTheme();
         setContentView(R.layout.activity_profile);
         userID = getIntent().getStringExtra("userID");
         initUI();
@@ -131,6 +134,16 @@ public class Profile extends AppCompatActivity {
         initCurrentUsersOnes();
         initCurrentUserTwos();
         // initCurrentUserTwosAnother();
+    }
+    // endregion
+
+    // region Set App Theme
+    private void setAppTheme() {
+        Map<String, Object> appSettings = SettingsManager.getAppSettings();
+
+        String group_theme = String.valueOf(appSettings.get("group_theme"));
+
+        ThemeManager.setApplicationTheme(this, group_theme);
     }
     // endregion
 

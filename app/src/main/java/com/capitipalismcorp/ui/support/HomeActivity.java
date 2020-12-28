@@ -13,6 +13,8 @@ import androidx.viewpager.widget.ViewPager;
 
 
 import com.capitipalismcorp.R;
+import com.capitipalismcorp.classes.SettingsManager;
+import com.capitipalismcorp.ui.helpers.ThemeManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
@@ -21,14 +23,27 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 
+import java.util.Map;
+
 public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setAppTheme();
         setContentView(R.layout.activity_support); // activity_home (ChatApp1)
 
         initUI();
     }
+
+    // region Set App Theme
+    private void setAppTheme() {
+        Map<String, Object> appSettings = SettingsManager.getAppSettings();
+
+        String group_theme = String.valueOf(appSettings.get("group_theme"));
+
+        ThemeManager.setApplicationTheme(this, group_theme);
+    }
+    // endregion
 
     private void initUI() {
         // region Action Bar Related Initialization

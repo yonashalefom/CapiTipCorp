@@ -4,11 +4,13 @@
     <PreferenceCategory app:title="General Settings">
 
         <EditTextPreference
+            app:icon="@drawable/ic_setting_group_name"
             app:key="group_name"
             app:title="Group Name"
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
+            app:icon="@drawable/ic_setting_group_theme"
             app:entries="@array/app_theme_names"
             app:entryValues="@array/app_theme_values"
             app:key="group_theme"
@@ -20,16 +22,19 @@
     <PreferenceCategory app:title="Login Link Settings">
 
         <EditTextPreference
+            app:icon="@drawable/ic_setting_group_link"
             app:key="ad_link_1"
             app:title="Login Link 1"
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
+            app:icon="@drawable/ic_setting_group_link"
             app:key="ad_link_2"
             app:title="Login Link 2"
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
+            app:icon="@drawable/ic_setting_group_link"
             app:key="ad_link_3"
             app:title="Login Link 3"
             app:useSimpleSummaryProvider="true" />
@@ -39,12 +44,14 @@
     <PreferenceCategory app:title="App Features">
 
         <SwitchPreferenceCompat
+            app:icon="@drawable/ic_setting_color_confirmation_feature"
             android:defaultValue="false"
             app:defaultValue="true"
             app:key="color_confirmation_feature"
             app:title="Color Confirmation Feature" />
 
         <SwitchPreferenceCompat
+            app:icon="@drawable/ic_setting_group_1s2s_feature"
             android:defaultValue="false"
             app:defaultValue="true"
             app:key="ones_twos_feature"

@@ -17,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:viewpager_animatedHeaderImage="true"
-        app:viewpager_color="@color/colorPrimary"
+        app:viewpager_color="?colorPrimary"
         app:viewpager_disableToolbar="false"
         app:viewpager_displayToolbarWhenSwipe="false"
         app:viewpager_enableToolbarElevation="true"

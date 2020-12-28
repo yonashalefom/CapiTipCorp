@@ -5,7 +5,7 @@
     android:id="@+id/login_page_main_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/capitipalism_primary"
+    android:background="?colorPrimary"
     tools:context=".ui.login.Login">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,7 +27,7 @@
             android:layout_width="250dp"
             android:layout_height="200dp"
             android:layout_marginBottom="8dp"
-            android:tint="@color/capitipalism_primary"
+            android:tint="?colorPrimary"
             android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/login_nfc_message"
             app:layout_constraintEnd_toEndOf="parent"
@@ -170,7 +170,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Already have an account?"
-                android:textColor="@color/capitipalism_primary"
+                android:textColor="?colorPrimary"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -183,7 +183,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginLeft="4dp"
                 android:text="Login."
-                android:textColor="@color/capitipalism_accent"
+                android:textColor="?colorPrimary"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@+id/login_lbl_have_account"
                 app:layout_constraintStart_toEndOf="@+id/login_lbl_have_account"
@@ -198,7 +198,7 @@
             android:layout_gravity="center"
             android:layout_marginBottom="8dp"
             android:visibility="gone"
-            app:SpinKit_Color="@color/capitipalism_primary"
+            app:SpinKit_Color="?colorPrimary"
             app:layout_constraintBottom_toTopOf="@+id/login_scan_nfc_logo"
             app:layout_constraintEnd_toEndOf="@+id/login_scan_nfc_logo"
             app:layout_constraintStart_toStartOf="@+id/login_scan_nfc_logo" />
@@ -227,7 +227,7 @@
             android:layout_marginBottom="24dp"
             android:gravity="center"
             android:text="Tap your NFC tag with your phone for easy sign-in. "
-            android:textColor="@color/capitipalism_primary"
+            android:textColor="?colorPrimary"
             app:layout_constraintBottom_toTopOf="@+id/login_txt_id"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

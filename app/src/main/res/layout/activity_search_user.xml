@@ -13,7 +13,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="240dp"
-        android:background="@color/capitipalism_primary" />
+        android:background="?colorPrimary" />
 
     <!--Top Header Layout-->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -117,7 +117,7 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp"
                     android:text="Search Users"
-                    android:textColor="@color/capitipalism_primary"
+                    android:textColor="?colorPrimary"
                     android:textSize="24sp"
                     app:layout_constraintBottom_toTopOf="@+id/textView6"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -157,7 +157,7 @@
                         android:layout_height="0dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginLeft="16dp"
-                        android:tint="@color/capitipalism_primary"
+                        android:tint="?colorPrimary"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -281,7 +281,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:visibility="visible"
-                    app:SpinKit_Color="@color/capitipalism_primary"
+                    app:SpinKit_Color="?colorPrimary"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -300,7 +300,7 @@
                     android:padding="13dp"
                     android:text="Found 10 Users"
                     android:textAllCaps="true"
-                    android:textColor="@color/capitipalism_primary"
+                    android:textColor="?colorPrimary"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     android:visibility="gone"

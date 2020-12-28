@@ -45,9 +45,10 @@
 
                 android:fontFamily="sans-serif-condensed"
                 android:text="Yonas Halefom"
-                android:textColor="@color/capitipalism_primary"
+                android:textColor="?colorPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/user_image" />
 
             <TextView

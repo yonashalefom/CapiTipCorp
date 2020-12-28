@@ -30,6 +30,7 @@ import com.capitipalismcorp.classes.GroupManager;
 import com.capitipalismcorp.classes.SettingsManager;
 import com.capitipalismcorp.ui.dashboard.Home;
 import com.capitipalismcorp.ui.helpers.AlertCreator;
+import com.capitipalismcorp.ui.helpers.ThemeManager;
 import com.capitipalismcorp.ui.profile.Profile;
 import com.capitipalismcorp.ui.search.SearchUser;
 import com.github.ybq.android.spinkit.SpinKitView;
@@ -93,6 +94,7 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setAppTheme();
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
@@ -109,6 +111,16 @@ public class Login extends AppCompatActivity {
         initUI();
         initEventListeners();
         initNfcLogin();
+    }
+    // endregion
+
+    // region Set App Theme
+    private void setAppTheme() {
+        Map<String, Object> appSettings = SettingsManager.getAppSettings();
+
+        String group_theme = String.valueOf(appSettings.get("group_theme"));
+
+        ThemeManager.setApplicationTheme(this, group_theme);
     }
     // endregion
 
@@ -136,13 +148,13 @@ public class Login extends AppCompatActivity {
     private void initUI() {
         Map<String, Object> appSettings = SettingsManager.getAppSettings();
 
-        String mainLoginBackground = String.valueOf(appSettings.get("group_theme"));
+//        String group_theme = String.valueOf(appSettings.get("group_theme"));
         String mainAppName = String.valueOf(appSettings.get("group_name"));
         String appLink1 = String.valueOf(appSettings.get("ad_link_1"));
         String appLink2 = String.valueOf(appSettings.get("ad_link_2"));
         String appLink3 = String.valueOf(appSettings.get("ad_link_3"));
 
-        login_page_main_background.setBackgroundColor(Color.parseColor(mainLoginBackground));
+//        login_page_main_background.setBackgroundColor(Color.parseColor(group_theme));
         login_lbl_title.setText(mainAppName);
         login_advert_link_1.setText(appLink1);
         login_advert_link_2.setText(appLink2);

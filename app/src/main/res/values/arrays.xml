@@ -3,18 +3,52 @@
     <string-array name="app_theme_names">
         <item>Default</item>
         <item>Amber</item>
-        <item>Azure</item>
+        <item>Pink</item>
         <item>Brick Red</item>
         <item>Coffee</item>
-        <item>Electric blue</item>
+        <item>Light Red</item>
+        <item>Jade</item>
+        <item>Cyan</item>
+        <item>Mustard</item>
+        <item>Navy</item>
+        <item>Red Orange</item>
+        <item>Turquoise</item>
+        <item>Ochre</item>
+        <item>Burnt</item>
+        <item>Sapphire</item>
+        <item>Marron</item>
+        <item>Teal</item>
+        <item>Black Brown</item>
+        <item>Sepia</item>
+        <item>Forest</item>
+        <item>Violet</item>
+        <item>Scarlet</item>
+        <item>Olive</item>
     </string-array>
 
     <string-array name="app_theme_values">
-        <item>#00A1CD</item>
-        <item>#FFBF00</item>
-        <item>#007FFF</item>
-        <item>#CB4154</item>
-        <item>#6F4E37</item>
-        <item>#7DF9FF</item>
+        <item>Default</item>
+        <item>Amber</item>
+        <item>Pink</item>
+        <item>BrickRed</item>
+        <item>Coffee</item>
+        <item>LightRed</item>
+        <item>Jade</item>
+        <item>Cyan</item>
+        <item>Mustard</item>
+        <item>Navy</item>
+        <item>RedOrange</item>
+        <item>Turquoise</item>
+        <item>Ochre</item>
+        <item>Burnt</item>
+        <item>Sapphire</item>
+        <item>Marron</item>
+        <item>Teal</item>
+        <item>BlackBrown</item>
+        <item>Sepia</item>
+        <item>Forest</item>
+        <item>Violet</item>
+        <item>Scarlet</item>
+        <item>Olive</item>
     </string-array>
 </resources>
