@@ -127,8 +127,10 @@ public class Login extends AppCompatActivity {
     // region Do Startup Check
     private void startupCheckup() {
         // startActivity(new Intent(Login.this, Home.class));
-        CapiUserManager.saveUserData(getApplicationContext(), "SupportRep", "SupportRep");
-        CapiUserManager.loadUserData(getApplicationContext());
+        // region todo Disable this auto login feature
+        // CapiUserManager.saveUserData(getApplicationContext(), "SupportRep", "SupportRep");
+        // CapiUserManager.loadUserData(getApplicationContext());
+        // endregion
 
         if (CapiUserManager.userDataExists()) {
             // todo admin go to User Profile Page, Super Admin go to Home
